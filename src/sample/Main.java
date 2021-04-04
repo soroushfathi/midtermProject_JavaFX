@@ -1,8 +1,6 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
@@ -15,18 +13,11 @@ public class Main extends Application {
         Button button = new Button("start the Game");
         AnchorPane pane = new AnchorPane();
         pane.getChildren().addAll(button);
-        pane.setPrefHeight(275);
-        pane.setPrefWidth(300);
 
-        Scene scene = new Scene(pane);
-        
+        //Scene scene = new Scene(pane);
+        primaryStage.setScene(new Scene(pane,300,275));
         primaryStage.setTitle("Game");
         primaryStage.show();
-
-//        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-//        primaryStage.setTitle("Game");
-//        primaryStage.setScene(new Scene(root, 300, 275));
-//        primaryStage.show();
     }
 
 
