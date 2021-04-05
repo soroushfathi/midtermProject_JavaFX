@@ -1,5 +1,6 @@
 package board.elements;
 
+import board.Element;
 import board.elements.Piece;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -11,21 +12,23 @@ import static board.Config.TILE_SIZE;
  */
 public class Tile extends Rectangle {
 
-    private Piece piece;
+    private Element element ;
 
-    public boolean hasPiece() {
-        return piece != null;
+
+    public boolean hasElement() {
+        return element != null;
     }
 
-    public Piece getPiece() {
-        return piece;
+    public Element getElement() {
+        return element;
     }
 
-    public void setPiece(Piece piece) {
-        this.piece = piece;
+    public void setElement(Element element) {
+        this.element = element;
     }
 
     public Tile(boolean light, int x, int y) {
+        element=null;
         setWidth(TILE_SIZE);
         setHeight(TILE_SIZE);
 
