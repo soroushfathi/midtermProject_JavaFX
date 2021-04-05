@@ -1,21 +1,19 @@
-package sample;
+package main;
 
+import board.Board;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
+
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Button button = new Button("start the Game");
-        AnchorPane pane = new AnchorPane();
-        pane.getChildren().addAll(button);
+       Board board = new Board();
 
         //Scene scene = new Scene(pane);
-        primaryStage.setScene(new Scene(pane,300,275));
+        primaryStage.setScene(new Scene(board.build()));
         primaryStage.setTitle("Game");
         primaryStage.show();
     }
