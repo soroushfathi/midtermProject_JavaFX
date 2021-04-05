@@ -1,15 +1,15 @@
 package board.elements;
 
+import board.Board;
+import board.Element;
+import board.ElementType;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 
-import static board.Config.TILE_SIZE;
+import static board.Config.*;
 
 
-/**
- * @author Almas Baimagambetov (almaslvl@gmail.com)
- */
 public class Piece extends StackPane {
 
     private PieceType type;
@@ -55,15 +55,28 @@ public class Piece extends StackPane {
 
         getChildren().addAll(bg, ellipse);
 
-
-
         setOnMouseDragged(e -> {
+            var selectedX = e.getSceneX() - TILE_SIZE / 2;
+            var selectedY = e.getSceneY() - TILE_SIZE / 2;
+            int _x = (int) Math.round(selectedX / TILE_SIZE);
+            int _y = (int) Math.round(selectedY / TILE_SIZE);
+            if (_x >= 0 && _y >= 0 && _x < WIDTH && _y < HEIGHT &&
+                    ( !Board.board[_x][_y].hasElement()||
+                    (Board.board[_x][_y].getElement().getType()!= ElementType.PIECE
+                    && Board.board[_x][_y].getElement().getType()!= ElementType.WALL))) {
 
-            var selectedX=e.getSceneX() - TILE_SIZE/2;
-            var selectedY=e.getSceneY() - TILE_SIZE/2;
-            relocate(Math.round(selectedX/TILE_SIZE)*TILE_SIZE,Math.round(selectedY/TILE_SIZE)*TILE_SIZE );
-            oldX=Math.round(selectedX/TILE_SIZE)*TILE_SIZE;
-            oldY=Math.round(selectedY/TILE_SIZE)*TILE_SIZE;
+                relocate(_x * TILE_SIZE, _y * TILE_SIZE);
+
+
+                if(Board.board[_x][_y].hasElement() &&Board.board[_x][_y].getElement().getType()== ElementType.STAR){
+                    Board.board[_x][_y].getElement().star.move(10000,10000);
+                }
+                Board.board[_x][_y].setElement(new Element(this));
+                Board.board[(int) oldX / TILE_SIZE][(int) oldY / TILE_SIZE].setElement(null);
+                oldX = _x * TILE_SIZE;
+                oldY = _y * TILE_SIZE;
+            }
+
         });
 
 
