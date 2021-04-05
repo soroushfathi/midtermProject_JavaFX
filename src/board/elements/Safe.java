@@ -1,6 +1,7 @@
 package board.elements;
 
 import board.Board;
+import board.ElementType;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -27,6 +28,12 @@ public class Safe extends StackPane {
             System.out.println(_x+" "+_y);
             int changedX = (int) e.getSceneX() / TILE_SIZE;
             int changedY = (int) e.getSceneY() / TILE_SIZE;
+            if(Board.board[changedX][changedY].hasElement()) {
+                if (Board.board[changedX][changedY].getElement().getType() == ElementType.STAR)
+                    Board.board[changedX][changedY].getElement().star.move(-1, -1);
+                if (Board.board[changedX][changedY].getElement().getType() == ElementType.SLOW)
+                    Board.board[changedX][changedY].getElement().slow.move(-1, -1);
+            }
             Board.board[_x][_y].getElement().piece.move(changedX, changedY);
             Board.board[changedX][changedY].setElement(Board.board[_x][_y].getElement());
             Board.board[_x][_y].setElement(null);
