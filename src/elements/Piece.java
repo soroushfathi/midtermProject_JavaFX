@@ -1,11 +1,9 @@
 package elements;
 
 import board.Board;
-import board.ElementType;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 
@@ -15,11 +13,6 @@ import static main.Config.*;
 public class Piece extends Element {
 
     private final PieceType pieceType;
-
-    public PieceType getPieceType() {
-        return pieceType;
-    }
-
 
     public Piece(PieceType type, int x, int y) {
         super(x, y, ElementType.PIECE);
@@ -73,16 +66,20 @@ public class Piece extends Element {
             e.consume();
         });
 
-            setOnDragDone(e -> {
-                if (!PREPARE) {
-                    for (int i = 0; i < WIDTH; i++)
-                        Board.safeMargin[i][this.y].setVisible(false);
+        setOnDragDone(e -> {
+            if (!PREPARE) {
+                for (int i = 0; i < WIDTH; i++)
+                    Board.safeMargin[i][this.y].setVisible(false);
 
-                    for (int j = 0; j < HEIGHT; j++)
-                        Board.safeMargin[this.x][j].setVisible(false);
-                }
-            });
+                for (int j = 0; j < HEIGHT; j++)
+                    Board.safeMargin[this.x][j].setVisible(false);
+            }
+        });
 
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
     }
 
 
