@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
-import static main.Config.TILE_SIZE;
+import static main.Config.*;
 
 
 public class Star extends Element {
@@ -17,8 +17,10 @@ public class Star extends Element {
         Image map=new Image("elements/star.png");
         ImagePattern pattern = new ImagePattern(map);
         star.setFill(pattern);
-        getChildren().addAll(star);
 
+        setVisible(!PREPARE);
+
+        getChildren().addAll(star);
     }
 
 }

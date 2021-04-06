@@ -14,16 +14,17 @@ import static main.Config.*;
 
 public class Piece extends Element {
 
-    private PieceType piecetype;
+    private final PieceType pieceType;
 
     public PieceType getPieceType() {
-        return piecetype;
+        return pieceType;
     }
 
 
     public Piece(PieceType type, int x, int y) {
         super(x, y, ElementType.PIECE);
-        this.piecetype = type;
+
+        this.pieceType = type;
         Ellipse bg = new Ellipse(TILE_SIZE * 0.3125, TILE_SIZE * 0.26);
         bg.setFill(Color.BLACK);
 
@@ -34,8 +35,7 @@ public class Piece extends Element {
         bg.setTranslateY((TILE_SIZE - TILE_SIZE * 0.26 * 2) / 2 + TILE_SIZE * 0.07);
 
         Ellipse ellipse = new Ellipse(TILE_SIZE * 0.3125, TILE_SIZE * 0.26);
-        ellipse.setFill(type == PieceType.RED
-                ? Color.valueOf("#c40003") : Color.valueOf("#fff9f4"));
+        ellipse.setFill(type == PieceType.RED ? Color.valueOf("#c40003") : Color.valueOf("#fff9f4"));
 
         ellipse.setStroke(Color.BLACK);
         ellipse.setStrokeWidth(TILE_SIZE * 0.03);
@@ -72,15 +72,17 @@ public class Piece extends Element {
             db.setContent(cb);
             e.consume();
         });
-        if (!PREPARE) {
-            setOnDragDone(e -> {
-                for (int i = 0; i < WIDTH; i++)
-                    Board.safeMargin[i][this.y].setVisible(false);
 
-                for (int j = 0; j < HEIGHT; j++)
-                    Board.safeMargin[this.x][j].setVisible(false);
+            setOnDragDone(e -> {
+                if (!PREPARE) {
+                    for (int i = 0; i < WIDTH; i++)
+                        Board.safeMargin[i][this.y].setVisible(false);
+
+                    for (int j = 0; j < HEIGHT; j++)
+                        Board.safeMargin[this.x][j].setVisible(false);
+                }
             });
-        }
+
     }
 
 

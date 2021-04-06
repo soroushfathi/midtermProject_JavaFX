@@ -13,5 +13,5 @@ public class Config {
 
     public static  boolean PREPARE=true;
 
-    public static int SETTING_WIDTH=265;
+    public static int SETTING_WIDTH=215;
 }

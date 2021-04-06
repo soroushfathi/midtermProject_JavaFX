@@ -13,18 +13,22 @@ import static main.Config.WIDTH;
 
 public class PrepareBoard {
 
-    private Group tileGroup = new Group();
-    private Group pieceGroup = new Group();
-    private Group wallGroup = new Group();
-    private Group starGroup = new Group();
-    private Group safeGroup = new Group();
+    private final Group tileGroup = new Group();
+    private final Group pieceGroup = new Group();
+    private final Group wallGroup = new Group();
+    private final Group starGroup = new Group();
+    private final Group slowGroup = new Group();
 
     public static Tile[][] board;
-    public static Safe[][] safeMargin;
+    public static Star[][] stars;
+    public static Slow[][] slows;
+    public static Wall[][] walls;
 
     public PrepareBoard() {
         board=new Tile[WIDTH][HEIGHT];
-        safeMargin=new Safe[WIDTH][HEIGHT];
+        stars=new Star[WIDTH][HEIGHT];
+        slows=new Slow[WIDTH][HEIGHT];
+        walls=new Wall[WIDTH][HEIGHT];
     }
     public Pane build(){
         Pane root = new Pane();
@@ -37,7 +41,7 @@ public class PrepareBoard {
         Pane boardPane=new Pane();
 
 
-        boardPane.getChildren().addAll(tileGroup,wallGroup,starGroup,pieceGroup,safeGroup);
+        boardPane.getChildren().addAll(tileGroup,wallGroup,starGroup,slowGroup,pieceGroup);
 
         GridPane.setConstraints(setting,1,0);
         GridPane.setConstraints(boardPane,0,0);
@@ -45,14 +49,22 @@ public class PrepareBoard {
         mainGrid.getChildren().add(boardPane);
 
         root.getChildren().addAll(mainGrid);
-        Random rand= new Random();
+
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
                 Tile tile = new Tile((x + y) % 2 == 0, x, y);
                 board[x][y] = tile;
 
+                Wall wall = new Wall(x,y);
+                Slow slow = new Slow(x,y);
+                Star star = new Star(x,y);
+
+                stars[x][y]=star;
+                slows[x][y]=slow;
+                walls[x][y]=wall;
+
                 Piece piece = null;
-                if (y ==0&&x==0) {
+                if (y ==0 && x==0) {
                     piece = new Piece(PieceType.RED, x, y);
                 }
 
@@ -64,6 +76,9 @@ public class PrepareBoard {
                     tile.setElement(piece);
                     pieceGroup.getChildren().add(piece);
                 }
+                wallGroup.getChildren().add(wall);
+                starGroup.getChildren().add(star);
+                slowGroup.getChildren().add(slow);
                 tileGroup.getChildren().add(tile);
             }
         }

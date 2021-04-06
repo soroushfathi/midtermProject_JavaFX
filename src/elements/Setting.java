@@ -6,41 +6,41 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import prepare.PrepareBoard;
 
-import static main.Config.PREPARE;
+import static main.Config.*;
 
 public class Setting extends GridPane {
     public Setting(){
         setPadding(new Insets(10, 10, 10, 10));
         setVgap(5);
         setHgap(5);
-        final TextField name = new TextField();
-        name.setPromptText("Enter your first name.");
-        name.setPrefColumnCount(10);
-        name.getText();
-        setConstraints(name, 0, 0);
-        getChildren().add(name);
+
+
+        ColorPicker fcp = new ColorPicker(Color.valueOf(FIRST_COLOR));
+        setConstraints(fcp, 0, 0);
+        getChildren().add(fcp);
 //Defining the Last Name text field
-        final TextField lastName = new TextField();
-        lastName.setPromptText("Enter your last name.");
-        setConstraints(lastName, 0, 1);
-        getChildren().add(lastName);
-//Defining the Comment text field
-        final TextField comment = new TextField();
-        comment.setPrefColumnCount(15);
-        comment.setPromptText("Enter your comment.");
-        setConstraints(comment, 0, 2);
-        getChildren().add(comment);
+        ColorPicker scp = new ColorPicker(Color.valueOf(SECOND_COLOR));
+        setConstraints(scp, 0, 1);
+        getChildren().add(scp);
 //Defining the Submit button
         Button submit = new Button("Submit");
         setConstraints(submit, 1, 0);
         getChildren().add(submit);
+
         submit.setOnMouseClicked(e->{
             PREPARE=false;
             Board board = new Board();
+            for(int i=0; i<WIDTH; i++)
+                for(int j=0; j<HEIGHT; j++)
+                    Board.board[i][j]=PrepareBoard.board[i][j];
             Stage stage = new Stage();
             stage.setTitle("My New Stage Title");
             stage.setScene(new Scene(board.build()));
@@ -49,8 +49,38 @@ public class Setting extends GridPane {
             ((Node)(e.getSource())).getScene().getWindow().hide();
         });
 //Defining the Clear button
-        Button clear = new Button("Clear");
+        Button clear = new Button("Reset");
         setConstraints(clear, 1, 1);
         getChildren().add(clear);
+
+        clear.setOnMouseClicked(e->{
+            PrepareBoard pb = new PrepareBoard();
+            Stage stage = new Stage();
+            stage.setTitle("My New Stage Title");
+            stage.setScene(new Scene(pb.build()));
+            stage.show();
+            // Hide this current window (if this is what you want)
+            ((Node)(e.getSource())).getScene().getWindow().hide();
+        });
+        fcp.setOnAction(e->{
+            System.out.println(1);
+            Color c = fcp.getValue();
+            for (int y = 0; y < HEIGHT; y++) {
+                for (int x = 0; x < WIDTH; x++) {
+                    if((x+y)%2==0)
+                    PrepareBoard.board[x][y].setFill(c);
+                }
+            }
+        });
+        scp.setOnAction(e->{
+            System.out.println(1);
+            Color c = scp.getValue();
+            for (int y = 0; y < HEIGHT; y++) {
+                for (int x = 0; x < WIDTH; x++) {
+                    if((x+y)%2==1)
+                        PrepareBoard.board[x][y].setFill(c);
+                }
+            }
+        });
     }
 }
