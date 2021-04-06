@@ -12,32 +12,18 @@ import javafx.scene.shape.Ellipse;
 import static main.Config.*;
 
 
-public class Piece extends StackPane {
+public class Piece extends Element {
 
-    private PieceType type;
+    private PieceType piecetype;
 
-
-    private int x, y;
-
-
-    public PieceType getType() {
-        return type;
+    public PieceType getPieceType() {
+        return piecetype;
     }
 
-    public double getOldX() {
-        return x;
-    }
-
-    public double getOldY() {
-        return y;
-    }
 
     public Piece(PieceType type, int x, int y) {
-        this.type = type;
-        this.x = x;
-        this.y = y;
-        move(x, y);
-
+        super(x, y, ElementType.PIECE);
+        this.piecetype = type;
         Ellipse bg = new Ellipse(TILE_SIZE * 0.3125, TILE_SIZE * 0.26);
         bg.setFill(Color.BLACK);
 
@@ -60,8 +46,7 @@ public class Piece extends StackPane {
         getChildren().addAll(bg, ellipse);
 
         setOnDragDetected(e -> {
-            if(!PREPARE)
-            {
+            if (!PREPARE) {
                 for (int i = this.x; i < WIDTH && (!Board.board[i][this.y].hasElement() || Board.board[i][this.y].getElement().getType() != ElementType.WALL); i++)
                     if (!Board.board[i][this.y].hasElement() ||
                             (Board.board[i][this.y].getElement().getType() == ElementType.SLOW || Board.board[i][this.y].getElement().getType() == ElementType.STAR))
@@ -81,15 +66,13 @@ public class Piece extends StackPane {
                             (Board.board[this.x][j].getElement().getType() == ElementType.SLOW || Board.board[this.x][j].getElement().getType() == ElementType.STAR))
                         Board.safeMargin[this.x][j].setVisible(true);
             }
-
             Dragboard db = startDragAndDrop(TransferMode.ANY);
             ClipboardContent cb = new ClipboardContent();
             cb.putString(this.x + "|" + this.y);
             db.setContent(cb);
             e.consume();
         });
-        if(!PREPARE)
-        {
+        if (!PREPARE) {
             setOnDragDone(e -> {
                 for (int i = 0; i < WIDTH; i++)
                     Board.safeMargin[i][this.y].setVisible(false);
@@ -98,12 +81,6 @@ public class Piece extends StackPane {
                     Board.safeMargin[this.x][j].setVisible(false);
             });
         }
-    }
-
-    public void move(int x, int y) {
-        this.x = x;
-        this.y = y;
-        relocate(x * TILE_SIZE, y * TILE_SIZE);
     }
 
 

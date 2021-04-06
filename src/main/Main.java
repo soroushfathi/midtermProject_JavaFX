@@ -4,18 +4,18 @@ import board.Board;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import prepare.PrepareBoard;
 
 public class Main extends Application {
 
-
     @Override
-    public void start(Stage primaryStage) throws Exception{
-       Board board = new Board();
+    public void start(Stage primaryStage) throws Exception {
+        PrepareBoard pBoard = new PrepareBoard();
 
-        //Scene scene = new Scene(pane);
-        primaryStage.setScene(new Scene(board.build()));
-        primaryStage.setTitle("Game");
+        primaryStage.setScene(new Scene(pBoard.build()));
+        primaryStage.setTitle("Prepare Game");
         primaryStage.show();
+
     }
 
 

@@ -10,12 +10,13 @@ import javafx.scene.shape.Rectangle;
 
 import static main.Config.*;
 
-public class Safe extends StackPane {
+public class Safe extends Element {
     public Safe(int x,int y){
+        super(x,y,ElementType.SAFE);
         Rectangle r=new Rectangle(TILE_SIZE,TILE_SIZE);
         r.setOpacity(SAFE_OPACITY);
         r.setFill( Color.valueOf(SAFE_COLOR));
-        move(x,y);
+
         getChildren().addAll(r);
         setVisible(false);
 
@@ -30,11 +31,11 @@ public class Safe extends StackPane {
             int changedY = (int) e.getSceneY() / TILE_SIZE;
             if(Board.board[changedX][changedY].hasElement()) {
                 if (Board.board[changedX][changedY].getElement().getType() == ElementType.STAR)
-                    Board.board[changedX][changedY].getElement().star.move(-1, -1);
+                    Board.board[changedX][changedY].getElement().move(-1, -1);
                 if (Board.board[changedX][changedY].getElement().getType() == ElementType.SLOW)
-                    Board.board[changedX][changedY].getElement().slow.move(-1, -1);
+                    Board.board[changedX][changedY].getElement().move(-1, -1);
             }
-            Board.board[_x][_y].getElement().piece.move(changedX, changedY);
+            Board.board[_x][_y].getElement().move(changedX, changedY);
             Board.board[changedX][changedY].setElement(Board.board[_x][_y].getElement());
             Board.board[_x][_y].setElement(null);
             for(int i =0;i<WIDTH;i++)

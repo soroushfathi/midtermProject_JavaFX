@@ -1,12 +1,10 @@
 package elements;
 
 
-import board.Board;
-import board.Element;
-import board.ElementType;
 import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import main.Move;
 import prepare.PrepareBoard;
 
 import static main.Config.*;
@@ -15,8 +13,7 @@ import static main.Config.*;
  * @author Almas Baimagambetov (almaslvl@gmail.com)
  */
 public class Tile extends Rectangle {
-    private int _x, _y;
-    boolean drag = false;
+
     private Element element;
 
 
@@ -49,14 +46,11 @@ public class Tile extends Rectangle {
             });
             setOnDragDropped(e -> {
                 var data = e.getDragboard().getString();
-                var _x = Integer.parseInt(data.substring(0, data.indexOf("|")));
-                var _y = Integer.parseInt(data.substring(data.indexOf("|") + 1));
-                int changedX = (int) e.getSceneX() / TILE_SIZE;
-                int changedY = (int) e.getSceneY() / TILE_SIZE;
-
-                PrepareBoard.board[_x][_y].getElement().piece.move(changedX, changedY);
-                PrepareBoard.board[changedX][changedY].setElement(PrepareBoard.board[_x][_y].getElement());
-                PrepareBoard.board[_x][_y].setElement(null);
+                var x1 = Integer.parseInt(data.substring(0, data.indexOf("|")));
+                var y1 = Integer.parseInt(data.substring(data.indexOf("|") + 1));
+                int x2 = (int) e.getSceneX() / TILE_SIZE;
+                int y2 = (int) e.getSceneY() / TILE_SIZE;
+                Move.set(PrepareBoard.board,x1,y1,x2,y2);
             });
         }
     }
