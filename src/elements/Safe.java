@@ -6,6 +6,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import main.Move;
 
 
 import static main.Config.*;
@@ -24,25 +25,26 @@ public class Safe extends Element {
 
         setOnDragDropped(e -> {
             var data = e.getDragboard().getString();
-            var _x = Integer.parseInt(data.substring(0, data.indexOf("|")));
-            var _y = Integer.parseInt(data.substring(data.indexOf("|") + 1));
-            System.out.println(_x+" "+_y);
-            int changedX = (int) e.getSceneX() / TILE_SIZE;
-            int changedY = (int) e.getSceneY() / TILE_SIZE;
-            if(Board.board[changedX][changedY].hasElement()) {
-                if (Board.board[changedX][changedY].getElement().getType() == ElementType.STAR)
-                    Board.board[changedX][changedY].getElement().move(-1, -1);
-                if (Board.board[changedX][changedY].getElement().getType() == ElementType.SLOW)
-                    Board.board[changedX][changedY].getElement().move(-1, -1);
+            var x1 = Integer.parseInt(data.substring(0, data.indexOf("|")));
+            var y1 = Integer.parseInt(data.substring(data.indexOf("|") + 1));
+
+            int x2 = (int) e.getSceneX() / TILE_SIZE;
+            int y2 = (int) e.getSceneY() / TILE_SIZE;
+
+            if(Board.board[x2][y2].hasElement()) {
+                if (Board.board[x2][y2].getElement().getType() == ElementType.STAR)
+                    Board.board[x2][y2].getElement().move(-1, -1);
+                if (Board.board[x2][y2].getElement().getType() == ElementType.SLOW)
+                    Board.board[x2][y2].getElement().move(-1, -1);
             }
-            Board.board[_x][_y].getElement().move(changedX, changedY);
-            Board.board[changedX][changedY].setElement(Board.board[_x][_y].getElement());
-            Board.board[_x][_y].setElement(null);
+
+            Move.set(Board.board,x1,y1,x2,y2);
+
             for(int i =0;i<WIDTH;i++)
-                Board.safeMargin[i][_y].setVisible(false);
+                Board.safeMargin[i][y1].setVisible(false);
 
             for(int j=0;j<HEIGHT;j++)
-                Board.safeMargin[_x][j].setVisible(false);
+                Board.safeMargin[x1][j].setVisible(false);
         });
     }
     public void move(int x, int y) {
