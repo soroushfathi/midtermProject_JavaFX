@@ -1,13 +1,14 @@
-package board.elements;
+package elements;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
-import static board.Config.TILE_SIZE;
 
-public class Slow extends StackPane {
+import static main.Config.TILE_SIZE;
+
+public class Wall extends StackPane {
     private double oldX, oldY;
 
     public double getOldX() {
@@ -18,14 +19,14 @@ public class Slow extends StackPane {
         return oldY;
     }
 
-    public Slow(int x, int y){
-        Rectangle slow=new Rectangle(0,0,TILE_SIZE,TILE_SIZE);
+    public Wall(int x, int y){
 
-        Image map=new Image("board/elements/slow.png");
+        Rectangle wall=new Rectangle(0,0,TILE_SIZE,TILE_SIZE);
+        Image map=new Image("elements/wall.png");
         ImagePattern pattern = new ImagePattern(map);
-        slow.setFill(pattern);
+        wall.setFill(pattern);
         move(x, y);
-        getChildren().addAll(slow);
+        getChildren().addAll(wall);
     }
 
     public void move(int x, int y) {

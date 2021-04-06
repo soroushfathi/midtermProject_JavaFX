@@ -1,12 +1,11 @@
-package board.elements;
+package elements;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 
-import static board.Config.TILE_SIZE;
+import static main.Config.TILE_SIZE;
 
 
 public class Star extends StackPane {
@@ -23,7 +22,7 @@ public class Star extends StackPane {
     public Star(int x, int y){
         Rectangle star=new Rectangle(0,0,TILE_SIZE,TILE_SIZE);
 
-        Image map=new Image("board/elements/star.png");
+        Image map=new Image("elements/star.png");
         ImagePattern pattern = new ImagePattern(map);
         star.setFill(pattern);
         move(x, y);
