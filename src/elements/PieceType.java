@@ -1,4 +1,4 @@
-package board.elements;
+package elements;
 
 /**
  * @author Almas Baimagambetov (almaslvl@gmail.com)

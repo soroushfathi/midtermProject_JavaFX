@@ -1,4 +1,4 @@
-package board.elements;
+package elements;
 
 import board.Board;
 import board.ElementType;
@@ -8,13 +8,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 
-import static board.Config.*;
+import static main.Config.*;
 
 public class Safe extends StackPane {
     public Safe(int x,int y){
         Rectangle r=new Rectangle(TILE_SIZE,TILE_SIZE);
-        r.setOpacity(0.5);
-        r.setFill( Color.valueOf("#34a77a"));
+        r.setOpacity(SAFE_OPACITY);
+        r.setFill( Color.valueOf(SAFE_COLOR));
         move(x,y);
         getChildren().addAll(r);
         setVisible(false);
