@@ -14,10 +14,8 @@ public class PrepareBoard {
     public static Slow[][] slows;
     public static Wall[][] walls;
     private final Group tileGroup = new Group();
-    private final Group pieceGroup = new Group();
-    private final Group wallGroup = new Group();
-    private final Group starGroup = new Group();
-    private final Group slowGroup = new Group();
+    private final Group elementGroup = new Group();
+
 
     public PrepareBoard() {
         board = new Tile[WIDTH][HEIGHT];
@@ -37,7 +35,7 @@ public class PrepareBoard {
         Pane boardPane = new Pane();
 
 
-        boardPane.getChildren().addAll(tileGroup, wallGroup, starGroup, slowGroup, pieceGroup);
+        boardPane.getChildren().addAll(tileGroup, elementGroup);
 
         GridPane.setConstraints(setting, 1, 0);
         GridPane.setConstraints(boardPane, 0, 0);
@@ -70,11 +68,9 @@ public class PrepareBoard {
 
                 if (piece != null) {
                     tile.setElement(piece);
-                    pieceGroup.getChildren().add(piece);
+                    elementGroup.getChildren().add(piece);
                 }
-                wallGroup.getChildren().add(wall);
-                starGroup.getChildren().add(star);
-                slowGroup.getChildren().add(slow);
+                elementGroup.getChildren().addAll(wall,star,slow);
                 tileGroup.getChildren().add(tile);
             }
         }
