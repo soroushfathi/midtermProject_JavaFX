@@ -2,7 +2,7 @@ package elements;
 
 import javafx.scene.control.*;
 import javafx.stage.StageStyle;
-import prepare.PrepareBoard;
+import pages.PrepareBoard;
 
 import java.util.Optional;
 

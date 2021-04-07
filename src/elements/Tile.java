@@ -1,12 +1,11 @@
 package elements;
 
 
-import board.Board;
 import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import main.Move;
-import prepare.PrepareBoard;
+import pages.PrepareBoard;
 
 import static main.Config.*;
 

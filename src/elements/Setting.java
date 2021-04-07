@@ -1,6 +1,6 @@
 package elements;
 
-import board.Board;
+import pages.Board;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -9,7 +9,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import prepare.PrepareBoard;
+import pages.PrepareBoard;
 
 import static main.Config.*;
 

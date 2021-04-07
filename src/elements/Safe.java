@@ -1,6 +1,6 @@
 package elements;
 
-import board.Board;
+import pages.Board;
 import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;

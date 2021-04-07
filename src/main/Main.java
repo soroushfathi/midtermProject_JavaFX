@@ -3,7 +3,7 @@ package main;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import prepare.PrepareBoard;
+import pages.PrepareBoard;
 
 public class Main extends Application {
 

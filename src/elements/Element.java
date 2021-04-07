@@ -1,6 +1,6 @@
 package elements;
 
-import board.Board;
+import pages.Board;
 import javafx.scene.layout.StackPane;
 import main.Move;
 

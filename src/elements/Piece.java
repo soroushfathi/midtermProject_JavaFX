@@ -1,6 +1,6 @@
 package elements;
 
-import board.Board;
+import pages.Board;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
