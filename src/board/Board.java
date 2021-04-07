@@ -1,9 +1,6 @@
 package board;
 
-import elements.Element;
-import elements.Safe;
-import elements.Tile;
-import elements.Wall;
+import elements.*;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 
@@ -14,9 +11,11 @@ import static main.Config.*;
 public class Board {
     public static Tile[][] board;
     public static Safe[][] safeMargin;
+
     private final Group tileGroup = new Group();
     private final Group safeGroup = new Group();
     private final Group elementGroup = new Group();
+    private final Group pieceGroup = new Group();
 
     public Board() {
         board = new Tile[WIDTH][HEIGHT];
@@ -27,7 +26,7 @@ public class Board {
         Pane root = new Pane();
 
         root.setPrefSize(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
-        root.getChildren().addAll(tileGroup, elementGroup, safeGroup);
+        root.getChildren().addAll(tileGroup, elementGroup, pieceGroup, safeGroup);
 
         Random rand = new Random();
         for (int y = 0; y < HEIGHT; y++) {
@@ -42,8 +41,10 @@ public class Board {
                 tileGroup.getChildren().add(tile);
 
                 Element element = board[x][y].getElement();
-                if (element != null)
+                if (element != null && element.getType() != ElementType.PIECE)
                     elementGroup.getChildren().add(element);
+                else if (element != null && element.getType() == ElementType.PIECE)
+                    pieceGroup.getChildren().add(element);
 
             }
         }

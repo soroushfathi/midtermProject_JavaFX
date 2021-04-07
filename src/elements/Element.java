@@ -1,12 +1,8 @@
 package elements;
 
 import board.Board;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
 import main.Move;
-import prepare.PrepareBoard;
 
 import static main.Config.PREPARE;
 import static main.Config.TILE_SIZE;

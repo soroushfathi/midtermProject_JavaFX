@@ -1,6 +1,7 @@
 package elements;
 
 
+import board.Board;
 import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -35,6 +36,8 @@ public class Tile extends Rectangle {
                 int y2 = (int) e.getSceneY() / TILE_SIZE;
                 if (!PrepareBoard.board[x2][y2].hasElement())
                     e.acceptTransferModes(TransferMode.ANY);
+
+
             }
         });
         setOnDragDropped(e -> {

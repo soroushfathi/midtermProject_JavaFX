@@ -9,7 +9,15 @@ import static main.Config.TILE_SIZE;
 
 public class Slow extends Element {
 
-    private int slowNum;
+    private int value;
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
 
     public Slow(int x, int y) {
         super(x, y, ElementType.SLOW);

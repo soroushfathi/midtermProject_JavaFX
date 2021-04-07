@@ -40,23 +40,19 @@ public class Piece extends Element {
 
         setOnDragDetected(e -> {
             if (!PREPARE) {
-                for (int i = this.x; i < WIDTH && (!Board.board[i][this.y].hasElement() || Board.board[i][this.y].getElement().getType() != ElementType.WALL); i++)
-                    if (!Board.board[i][this.y].hasElement() ||
-                            (Board.board[i][this.y].getElement().getType() == ElementType.SLOW || Board.board[i][this.y].getElement().getType() == ElementType.STAR))
+                for (int i = this.x; i < WIDTH && (!Board.board[i][this.y].hasElement() || Board.board[i][this.y].getElement().getType() != ElementType.WALL) && (i - this.x) < LIMIT; i++)
+                    if (!Board.board[i][this.y].hasElement() || Board.board[i][this.y].getElement().getType() == ElementType.SLOW || Board.board[i][this.y].getElement().getType() == ElementType.STAR)
                         Board.safeMargin[i][this.y].setVisible(true);
-                for (int i = this.x; i >= 0 && (!Board.board[i][this.y].hasElement() || Board.board[i][this.y].getElement().getType() != ElementType.WALL); i--)
-                    if (!Board.board[i][this.y].hasElement() ||
-                            (Board.board[i][this.y].getElement().getType() == ElementType.SLOW || Board.board[i][this.y].getElement().getType() == ElementType.STAR))
+                for (int i = this.x; i >= 0 && (!Board.board[i][this.y].hasElement() || Board.board[i][this.y].getElement().getType() != ElementType.WALL) && (this.x - i) < LIMIT; i--)
+                    if (!Board.board[i][this.y].hasElement() || Board.board[i][this.y].getElement().getType() == ElementType.SLOW || Board.board[i][this.y].getElement().getType() == ElementType.STAR)
                         Board.safeMargin[i][this.y].setVisible(true);
 
 
-                for (int j = this.y; j < HEIGHT && (!Board.board[this.x][j].hasElement() || Board.board[this.x][j].getElement().getType() != ElementType.WALL); j++)
-                    if (!Board.board[this.x][j].hasElement() ||
-                            (Board.board[this.x][j].getElement().getType() == ElementType.SLOW || Board.board[this.x][j].getElement().getType() == ElementType.STAR))
+                for (int j = this.y; j < HEIGHT && (!Board.board[this.x][j].hasElement() || Board.board[this.x][j].getElement().getType() != ElementType.WALL) && (j - this.y) < LIMIT; j++)
+                    if (!Board.board[this.x][j].hasElement() || Board.board[this.x][j].getElement().getType() == ElementType.SLOW || Board.board[this.x][j].getElement().getType() == ElementType.STAR)
                         Board.safeMargin[this.x][j].setVisible(true);
-                for (int j = this.y; j >= 0 && (!Board.board[this.x][j].hasElement() || Board.board[this.x][j].getElement().getType() != ElementType.WALL); j--)
-                    if (!Board.board[this.x][j].hasElement() ||
-                            (Board.board[this.x][j].getElement().getType() == ElementType.SLOW || Board.board[this.x][j].getElement().getType() == ElementType.STAR))
+                for (int j = this.y; j >= 0 && (!Board.board[this.x][j].hasElement() || Board.board[this.x][j].getElement().getType() != ElementType.WALL) && (this.y - j) < LIMIT; j--)
+                    if (!Board.board[this.x][j].hasElement() || Board.board[this.x][j].getElement().getType() == ElementType.SLOW || Board.board[this.x][j].getElement().getType() == ElementType.STAR)
                         Board.safeMargin[this.x][j].setVisible(true);
             }
             Dragboard db = startDragAndDrop(TransferMode.ANY);
