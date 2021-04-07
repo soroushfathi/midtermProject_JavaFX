@@ -21,15 +21,6 @@ public class Element extends StackPane {
         this.y = y;
         this.type = type;
         move(x, y);
-        setOnDragDetected(e -> {
-            if (type == ElementType.SAFE) {
-                Dragboard db = startDragAndDrop(TransferMode.ANY);
-                ClipboardContent cb = new ClipboardContent();
-                cb.putString(this.x + "|" + this.y);
-                db.setContent(cb);
-                e.consume();
-            }
-        });
 
         setOnDragDropped(e -> {
             if (type == ElementType.SAFE) {
@@ -38,10 +29,7 @@ public class Element extends StackPane {
                 var y1 = Integer.parseInt(data.substring(data.indexOf("|") + 1));
                 int x2 = (int) e.getSceneX() / TILE_SIZE;
                 int y2 = (int) e.getSceneY() / TILE_SIZE;
-                if (PREPARE)
-                    Move.set(PrepareBoard.board, x1, y1, x2, y2);
-                else
-                    Move.set(Board.board, x1, y1, x2, y2);
+                Move.set(Board.board, x1, y1, x2, y2);
             }
         });
 
