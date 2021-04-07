@@ -21,16 +21,17 @@ public class Star extends Element {
         star.setFill(pattern);
 
         RotateTransition rotateTransition = new RotateTransition();
-        rotateTransition.setDuration(Duration.millis(8000));
+        rotateTransition.setDuration(Duration.millis(1000));
 
         //Setting the node for the transition
         rotateTransition.setNode(star);
-        rotateTransition.setByAngle(360);
+        rotateTransition.setByAngle(30);
 
         //Setting the cycle count for the transition
-        rotateTransition.setCycleCount(99999);
+        rotateTransition.setCycleCount(10000);
         rotateTransition.setAutoReverse(true);
         rotateTransition.play();
+
         setVisible(!PREPARE);
 
         getChildren().addAll(star);

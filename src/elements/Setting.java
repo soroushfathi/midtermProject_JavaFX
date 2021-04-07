@@ -58,7 +58,6 @@ public class Setting extends GridPane {
             ((Node) (e.getSource())).getScene().getWindow().hide();
         });
         fcp.setOnAction(e -> {
-            System.out.println(1);
             Color c = fcp.getValue();
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
@@ -68,7 +67,6 @@ public class Setting extends GridPane {
             }
         });
         scp.setOnAction(e -> {
-            System.out.println(1);
             Color c = scp.getValue();
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
