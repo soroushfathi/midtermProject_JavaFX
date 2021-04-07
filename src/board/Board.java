@@ -41,6 +41,7 @@ public class Board {
                 tileGroup.getChildren().add(tile);
 
                 Element element = board[x][y].getElement();
+
                 if (element != null && element.getType() != ElementType.PIECE)
                     elementGroup.getChildren().add(element);
                 else if (element != null && element.getType() == ElementType.PIECE)

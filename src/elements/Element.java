@@ -8,7 +8,11 @@ import static main.Config.PREPARE;
 import static main.Config.TILE_SIZE;
 
 public class Element extends StackPane {
-    protected int x, y;
+    protected int x, y,value;
+
+    public int getValue() {
+        return value;
+    }
 
     ElementType type;
 
