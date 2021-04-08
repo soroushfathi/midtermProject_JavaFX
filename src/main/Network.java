@@ -27,13 +27,9 @@ public class Network {
 
     }
 
-    public static void search() {
-
-    }
-
     public static void send(Socket s, String data) throws IOException, InterruptedException {
         TimeUnit.MILLISECONDS.sleep(5);
-        DataOutputStream out = new DataOutputStream(new BufferedOutputStream(s.getOutputStream()));
+        DataOutputStream out = new DataOutputStream(s.getOutputStream());
         out.writeUTF(data);
     }
 

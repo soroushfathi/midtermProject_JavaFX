@@ -60,11 +60,11 @@ public class PrepareBoard {
 
                 Piece piece = null;
                 if (y == 0 && x == 0) {
-                    piece = new Piece(Color.RED.toString(), x, y);
+                    piece = new Piece(Color.RED.toString(), x, y,0);
                 }
 
                 if (y == WIDTH - 1 && x == WIDTH - 1) {
-                    piece = new Piece(Color.WHEAT.toString(), x, y);
+                    piece = new Piece(Color.WHEAT.toString(), x, y,0);
                 }
 
                 if (piece != null) {

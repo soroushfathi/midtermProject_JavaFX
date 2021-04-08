@@ -17,9 +17,14 @@ public class Config {
 
     public static int LIMIT =WIDTH;
 
-    public static int PLAY_TYPE=0;
+    public static PlayType PLAY_TYPE=PlayType.LOCAL;
 
-    public static int SERVER_RESPONSE_TIMEOUT=50;
+    public static int SERVER_RESPONSE_TIMEOUT=70;
 
     public static boolean YOUR_TURN =false;
+    public static int MY_ID ;
+    public static boolean MOVED=false ;
+    public static String LAST_MOVE="" ;
+    public static String FROM;
+    public static String TO;
 }

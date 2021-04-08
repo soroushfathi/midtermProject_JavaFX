@@ -55,7 +55,7 @@ public class PlayType extends GridPane {
             ((Node) (e.getSource())).getScene().getWindow().hide();
         });
         network.setOnAction(e -> {
-            PLAY_TYPE = 1;
+            PLAY_TYPE = main.PlayType.NETWORK;
             Search task = new Search();
             ExecutorService executorService = Executors.newFixedThreadPool(1);
             executorService.execute(task);
@@ -97,7 +97,6 @@ public class PlayType extends GridPane {
                 setOnMouseClicked(e -> {
                     if (e.getButton().equals(MouseButton.PRIMARY) && !type) {
                         if (e.getClickCount() == 2) {
-                            System.out.println("wrong");
                             for (var server : Search.servers) {
                                 if (item.substring(0, item.indexOf(" ")).equals(server.name + ":" + server.port)) {
 
