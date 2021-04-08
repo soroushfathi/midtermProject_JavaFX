@@ -4,6 +4,7 @@ import elements.*;
 import javafx.scene.Group;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 import static main.Config.*;
 
@@ -50,7 +51,7 @@ public class PrepareBoard {
                 board[x][y] = tile;
 
                 Wall wall = new Wall(x, y);
-                Slow slow = new Slow(x, y);
+                Slow slow = new Slow(x, y,0);
                 Star star = new Star(x, y);
 
                 stars[x][y] = star;
@@ -59,11 +60,11 @@ public class PrepareBoard {
 
                 Piece piece = null;
                 if (y == 0 && x == 0) {
-                    piece = new Piece(PieceType.RED, x, y);
+                    piece = new Piece(Color.RED.toString(), x, y);
                 }
 
                 if (y == WIDTH - 1 && x == WIDTH - 1) {
-                    piece = new Piece(PieceType.WHITE, x, y);
+                    piece = new Piece(Color.WHEAT.toString(), x, y);
                 }
 
                 if (piece != null) {
@@ -76,4 +77,6 @@ public class PrepareBoard {
         }
         return root;
     }
+
+
 }

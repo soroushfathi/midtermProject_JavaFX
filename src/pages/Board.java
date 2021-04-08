@@ -51,4 +51,21 @@ public class Board {
         }
         return root;
     }
+    public static void TranslateBoard(ElementType[][] elements,String[][] colors,int[][] values){
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                Tile tile = new Tile((x + y) % 2 == 0, x, y);
+                board[x][y] = tile;
+                if(elements[x][y]!=null) {
+                    switch (elements[x][y]) {
+                        case STAR -> board[x][y].setElement(new Star(x, y));
+                        case WALL -> board[x][y].setElement(new Wall(x, y));
+                        case PIECE -> board[x][y].setElement(new Piece(colors[x][y], x, y));
+                        case SLOW -> board[x][y].setElement(new Slow(x, y, values[x][y]));
+                    }
+                }
+            }
+
+        }
+    }
 }

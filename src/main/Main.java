@@ -3,6 +3,7 @@ package main;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import pages.PlayType;
 import pages.PrepareBoard;
 
 public class Main extends Application {
@@ -13,9 +14,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        PrepareBoard pBoard = new PrepareBoard();
 
-        primaryStage.setScene(new Scene(pBoard.build()));
+        primaryStage.setScene(new Scene(new PlayType()));
         primaryStage.setTitle("Prepare Game");
         primaryStage.show();
     }

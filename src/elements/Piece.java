@@ -12,12 +12,12 @@ import static main.Config.*;
 
 public class Piece extends Element {
 
-    private final PieceType pieceType;
 
-    public Piece(PieceType type, int x, int y) {
+
+    public Piece(String color,int x, int y) {
         super(x, y, ElementType.PIECE);
+        super.color=color;
 
-        this.pieceType = type;
         Ellipse bg = new Ellipse(TILE_SIZE * 0.3125, TILE_SIZE * 0.26);
         bg.setFill(Color.BLACK);
 
@@ -28,7 +28,7 @@ public class Piece extends Element {
         bg.setTranslateY((TILE_SIZE - TILE_SIZE * 0.26 * 2) / 2 + TILE_SIZE * 0.07);
 
         Ellipse ellipse = new Ellipse(TILE_SIZE * 0.3125, TILE_SIZE * 0.26);
-        ellipse.setFill(type == PieceType.RED ? Color.valueOf("#c40003") : Color.valueOf("#fff9f4"));
+        ellipse.setFill(Color.valueOf(color));
 
         ellipse.setStroke(Color.BLACK);
         ellipse.setStrokeWidth(TILE_SIZE * 0.03);
@@ -72,10 +72,6 @@ public class Piece extends Element {
             }
         });
 
-    }
-
-    public PieceType getPieceType() {
-        return pieceType;
     }
 
 

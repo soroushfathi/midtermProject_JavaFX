@@ -9,6 +9,7 @@ import static main.Config.TILE_SIZE;
 
 public class Element extends StackPane {
     protected int x, y,value;
+    public String color;
 
     public int getValue() {
         return value;

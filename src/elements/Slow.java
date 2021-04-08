@@ -17,9 +17,9 @@ public class Slow extends Element {
         return value;
     }
 
-    public Slow(int x, int y) {
+    public Slow(int x, int y,int value) {
         super(x, y, ElementType.SLOW);
-
+        super.value = value;
         Rectangle slow = new Rectangle(0, 0, TILE_SIZE, TILE_SIZE);
 
         Image map = new Image("elements/assets/slow.png");
