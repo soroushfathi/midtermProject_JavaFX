@@ -15,7 +15,7 @@ public class Config {
 
     public static int SETTING_WIDTH = 215;
 
-    public static int LIMIT =WIDTH;
+    public static int LIMIT =-1;
 
     public static PlayType PLAY_TYPE=PlayType.LOCAL;
 
@@ -27,6 +27,6 @@ public class Config {
     public static String LAST_MOVE="" ;
     public static String FROM;
     public static String TO;
-    public static boolean GAME_IS_STARTED=true;
+    public static boolean GAME_IS_STARTED=false;
 
 }

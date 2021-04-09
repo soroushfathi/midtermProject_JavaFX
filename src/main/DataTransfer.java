@@ -65,6 +65,12 @@ public class DataTransfer implements Runnable {
                         HEIGHT = Integer.parseInt(receive(s));
                         send(s, "myId");
                         MY_ID = Integer.parseInt(receive(s));
+                        send(s, "tileSize");
+                        TILE_SIZE = Integer.parseInt(receive(s));
+                        send(s, "fc");
+                        FIRST_COLOR = receive(s);
+                        send(s, "sc");
+                        SECOND_COLOR = receive(s);
                         PREPARE = false;
                         drawBoard(elements, colors, values, id);
                         System.gc();
@@ -79,7 +85,7 @@ public class DataTransfer implements Runnable {
             boolean showWait = true;
             while (true) {
                 try {
-                   // TimeUnit.MILLISECONDS.sleep(50);
+                    TimeUnit.MILLISECONDS.sleep(50);
                     if (!GAME_IS_STARTED && showWait) {
                         showWait = false;
                         waitingForPlayers(s);
@@ -88,6 +94,10 @@ public class DataTransfer implements Runnable {
                         getLastMove(s);
                         setMove(s);
                         getTurn(s);
+                        if(LIMIT==-1) {
+                            send(s, "limit");
+                            LIMIT = Integer.parseInt(receive(s));
+                        }
                     }
                 } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
@@ -147,10 +157,10 @@ public class DataTransfer implements Runnable {
     }
 
     private static void getLastMove(Socket s) throws IOException, InterruptedException {
-        if(!MOVED) {
             send(s, "lastMove");
             var LAST_MOVE = receive(s);
-            if (!Config.LAST_MOVE.equals(LAST_MOVE) && LAST_MOVE.length() > 0) {
+            if ( LAST_MOVE.length() > 0) {
+
                 Config.LAST_MOVE = String.valueOf(LAST_MOVE);
                 var x1 = Integer.parseInt(LAST_MOVE.substring(0, LAST_MOVE.indexOf("-")).substring(0, LAST_MOVE.indexOf("|")));
                 var y1 = Integer.parseInt(LAST_MOVE.substring(0, LAST_MOVE.indexOf("-")).substring(LAST_MOVE.indexOf("|") + 1));
@@ -159,7 +169,7 @@ public class DataTransfer implements Runnable {
 
                 Move.set(Board.board, x1, y1, x2, y2);
             }
-        }
+
     }
 
 }
