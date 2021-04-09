@@ -21,6 +21,7 @@ public class Piece extends Element {
     public Piece(String color, int x, int y, int id) {
         super(x, y, ElementType.PIECE);
         super.color = color;
+        super.id=id;
 
         Label l = new Label(id == MY_ID ? "YOU" : String.valueOf(id+1));
         l.setTranslateX(TILE_SIZE / 4 - 3);

@@ -39,7 +39,7 @@ public class PlayType extends GridPane {
         network.setPrefWidth(200);
         getChildren().add(network);
 
-        ListView<String> list = new ListView<String>();
+        ListView<String> list = new ListView<>();
         setConstraints(list, 0, 2);
         list.setPrefSize(200, 200);
         getChildren().add(list);
@@ -60,18 +60,11 @@ public class PlayType extends GridPane {
             ExecutorService executorService = Executors.newFixedThreadPool(1);
             executorService.execute(task);
 
-            Alert alert = new Alert(Alert.AlertType.WARNING);
+            Loading l = new Loading(LoadingType.SEARCH,"Search for servers");
 
-            task.setOnRunning(__ -> {
-
-                alert.initStyle(StageStyle.UNDECORATED);
-                alert.getDialogPane().setContent(new Loading(LoadingType.LOAD));
-                alert.setHeaderText("Search servers");
-                alert.getDialogPane().lookupButton(ButtonType.OK).setVisible(false);
-                alert.show();
-            });
+            task.setOnRunning(__->l.show());
             task.setOnSucceeded(__ -> {
-                alert.close();
+                l.close();
                 executorService.shutdown();
                 var servers = Search.servers;
                 ObservableList<String> items = FXCollections.observableArrayList();
@@ -79,28 +72,28 @@ public class PlayType extends GridPane {
                 for (var server : servers)
                     items.add(server.name + ":" + server.port + "   " + server.player + "/" + server.size);
                 list.setItems(items);
-                list.setCellFactory((ListView<String> l) -> new ColoredCell());
+                list.setCellFactory((ListView<String> p) -> new ColoredCell());
             });
         });
 
     }
 
     private static class ColoredCell extends ListCell<String> {
-
         @Override
         protected void updateItem(String item, boolean empty) {
             super.updateItem(item, empty);
             if (item != null) {
-                boolean type = item.substring(item.indexOf(" ") + 3, item.indexOf("/")).equals(item.substring(item.indexOf("/") + 1));
+                boolean isActive = !item.substring(item.indexOf(" ") + 3, item.indexOf("/")).equals(item.substring(item.indexOf("/") + 1));
                 setText(item);
-                setTextFill(type ? Color.RED : Color.GREEN);
+                setTextFill(isActive ? Color.GREEN:Color.RED );
                 setOnMouseClicked(e -> {
-                    if (e.getButton().equals(MouseButton.PRIMARY) && !type) {
+                    if (e.getButton().equals(MouseButton.PRIMARY) && isActive) {
                         if (e.getClickCount() == 2) {
                             for (var server : Search.servers) {
-                                if (item.substring(0, item.indexOf(" ")).equals(server.name + ":" + server.port)) {
 
+                                if (item.substring(0, item.indexOf(" ")).equals(server.name + ":" + server.port)) {
                                     if (server.password.length() > 0) {
+                                        System.out.println("hello");
                                         TextInputDialog dialog = new TextInputDialog();
                                         Optional<String> result;
                                         dialog.setTitle("Password");
@@ -112,13 +105,14 @@ public class PlayType extends GridPane {
                                         result = dialog.showAndWait();
                                         result.ifPresent(p -> {
                                             if (p.equals(server.password)) {
+                                               // ((Node) (e.getSource())).getScene().getWindow().hide();
                                                 Thread t = new Thread(new DataTransfer(server));
                                                 t.start();
                                             } else
                                                 System.out.println("wrong");
                                         });
                                     } else {
-
+                                        //((Node) (e.getSource())).getScene().getWindow().hide();
                                         Thread t = new Thread(new DataTransfer(server));
                                         t.start();
                                     }
