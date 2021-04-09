@@ -1,9 +1,10 @@
 package elements;
 
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
-import prepare.PrepareBoard;
+import javafx.scene.control.*;
+import javafx.stage.StageStyle;
+import pages.PrepareBoard;
+
+import java.util.Optional;
 
 
 public class DropdownMenu extends ContextMenu {
@@ -29,11 +30,25 @@ public class DropdownMenu extends ContextMenu {
         });
 
         slow.setOnAction(e -> {
-            if (PrepareBoard.board[x][y].hasElement()) {
-                PrepareBoard.board[x][y].getElement().setVisible(false);
-            }
-            PrepareBoard.slows[x][y].setVisible(true);
-            PrepareBoard.board[x][y].setElement(PrepareBoard.slows[x][y]);
+
+            TextInputDialog dialog = new TextInputDialog();
+
+            dialog.setTitle("Set value");
+            dialog.setHeaderText(null);
+            dialog.setGraphic(null);
+            dialog.initStyle(StageStyle.UNDECORATED);
+            dialog.setContentText("Pleas enter slow value:");
+
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(s ->{
+                if (PrepareBoard.board[x][y].hasElement()) {
+                    PrepareBoard.board[x][y].getElement().setVisible(false);
+                }
+                PrepareBoard.slows[x][y].setVisible(true);
+                PrepareBoard.slows[x][y].setValue(Integer.parseInt(s));
+                PrepareBoard.board[x][y].setElement(PrepareBoard.slows[x][y]);
+            } );
+
         });
 
         star.setOnAction(e -> {

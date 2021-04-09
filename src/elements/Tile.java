@@ -5,20 +5,17 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import main.Move;
-import prepare.PrepareBoard;
+import pages.PrepareBoard;
 
 import static main.Config.*;
 
-/**
- * @author Almas Baimagambetov (almaslvl@gmail.com)
- */
+
 public class Tile extends Rectangle {
 
     private Element element;
 
 
     public Tile(boolean light, int x, int y) {
-        element = null;
         setWidth(TILE_SIZE);
         setHeight(TILE_SIZE);
 

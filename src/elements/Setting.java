@@ -1,6 +1,6 @@
 package elements;
 
-import board.Board;
+import pages.Board;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -9,7 +9,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import prepare.PrepareBoard;
+import pages.PrepareBoard;
 
 import static main.Config.*;
 
@@ -19,15 +19,14 @@ public class Setting extends GridPane {
         setVgap(5);
         setHgap(5);
 
-
         ColorPicker fcp = new ColorPicker(Color.valueOf(FIRST_COLOR));
         setConstraints(fcp, 0, 0);
         getChildren().add(fcp);
-//Defining the Last Name text field
+
         ColorPicker scp = new ColorPicker(Color.valueOf(SECOND_COLOR));
         setConstraints(scp, 0, 1);
         getChildren().add(scp);
-//Defining the Submit button
+
         Button submit = new Button("Submit");
         setConstraints(submit, 1, 0);
         getChildren().add(submit);
@@ -40,7 +39,7 @@ public class Setting extends GridPane {
             stage.setTitle("Game");
             stage.setScene(new Scene(board.build()));
             stage.show();
-            // Hide this current window (if this is what you want)
+
             ((Node) (e.getSource())).getScene().getWindow().hide();
         });
         //Defining the Clear button
