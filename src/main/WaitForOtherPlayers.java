@@ -18,7 +18,7 @@ public class WaitForOtherPlayers extends Task<Long> {
     @Override
     protected Long call() throws Exception {
         while (true) {
-            TimeUnit.MILLISECONDS.sleep(1000);
+            TimeUnit.MILLISECONDS.sleep(300);
             send(s, "start?");
             if (receive(s).equals("start")) {
                 GAME_IS_STARTED = true;

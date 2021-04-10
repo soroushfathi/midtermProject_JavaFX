@@ -28,5 +28,6 @@ public class Config {
     public static String FROM;
     public static String TO;
     public static boolean GAME_IS_STARTED=false;
+    public static boolean GAME_IS_ENDED=false;
 
 }

@@ -9,13 +9,16 @@ import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import pages.Board;
+import pages.PrepareBoard;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -24,7 +27,7 @@ import static main.Config.*;
 import static main.Network.*;
 
 public class DataTransfer implements Runnable {
-    Server server;
+     static Server server;
 
     public DataTransfer(Server s) {
         server = s;
@@ -46,7 +49,7 @@ public class DataTransfer implements Runnable {
             } catch (SocketException e) {
                 e.printStackTrace();
             }
-            while (true) {
+            while (!GAME_IS_ENDED) {
                 try {
                     if (receive(s).equals("hello!")) {
                         s.setSoTimeout(0);
@@ -83,7 +86,7 @@ public class DataTransfer implements Runnable {
 
             }
             boolean showWait = true;
-            while (true) {
+            while (!GAME_IS_ENDED) {
                 try {
                     TimeUnit.MILLISECONDS.sleep(50);
                     if (!GAME_IS_STARTED && showWait) {
@@ -94,16 +97,38 @@ public class DataTransfer implements Runnable {
                         getLastMove(s);
                         setMove(s);
                         getTurn(s);
-                        if(LIMIT==-1) {
-                            send(s, "limit");
-                            LIMIT = Integer.parseInt(receive(s));
+                        getLimit(s);
+                        send(s, "end?");
+                        var winner=Integer.parseInt(receive(s));
+                        if(winner>=0){
+                            Platform.runLater(()-> {
+                                    Alert a=new Alert(Alert.AlertType.INFORMATION);
+                                    a.initStyle(StageStyle.UNDECORATED);
+                                    a.setHeaderText("Game is ended");
+                                    a.setContentText("Player "+ winner+1 +" win!!!");
+                                    Optional<ButtonType> result = a.showAndWait();
+                                    result.ifPresent(__ -> {
+                                        System.exit(1);
+                                    });
+
+                                    GAME_IS_ENDED=true;
+                            });
+
                         }
                     }
                 } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
+                    System.out.println(e);
                     break;
                 }
             }
+
+        }
+    }
+
+    private void getLimit(Socket s) throws IOException, InterruptedException {
+        if(LIMIT==-1) {
+            send(s, "limit");
+            LIMIT = Integer.parseInt(receive(s));
         }
     }
 
@@ -157,18 +182,24 @@ public class DataTransfer implements Runnable {
     }
 
     private static void getLastMove(Socket s) throws IOException, InterruptedException {
-            send(s, "lastMove");
-            var LAST_MOVE = receive(s);
-            if ( LAST_MOVE.length() > 0) {
+        for(int i=0;i<server.size;i++){
+            if(i!=MY_ID) {
+                send(s, "l:" + i);
+                var data = receive(s);
+                var x2 = Integer.parseInt(data.substring(0, data.indexOf("|")));
+                var y2 = Integer.parseInt(data.substring(data.indexOf("|") + 1));
 
-                Config.LAST_MOVE = String.valueOf(LAST_MOVE);
-                var x1 = Integer.parseInt(LAST_MOVE.substring(0, LAST_MOVE.indexOf("-")).substring(0, LAST_MOVE.indexOf("|")));
-                var y1 = Integer.parseInt(LAST_MOVE.substring(0, LAST_MOVE.indexOf("-")).substring(LAST_MOVE.indexOf("|") + 1));
-                var x2 = Integer.parseInt(LAST_MOVE.substring(LAST_MOVE.indexOf("-") + 1).substring(0, LAST_MOVE.indexOf("|")));
-                var y2 = Integer.parseInt(LAST_MOVE.substring(LAST_MOVE.indexOf("-") + 1).substring(LAST_MOVE.indexOf("|") + 1));
+                int finalI = i;
+                Platform.runLater(()-> {
+                    for (var t : Board.board)
+                        for (var tile : t)
+                            if (tile.hasElement() && tile.getElement().id == finalI)
+                                if (tile.getElement().getX() != x2 || tile.getElement().getY() != y2)
+                                    Move.set(Board.board, tile.getElement().getX(), tile.getElement().getY(), x2, y2);
 
-                Move.set(Board.board, x1, y1, x2, y2);
+                });
             }
+        }
 
     }
 
