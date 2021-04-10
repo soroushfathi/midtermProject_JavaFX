@@ -1,14 +1,13 @@
-package main;
+package network;
 
 import javafx.concurrent.Task;
-import javafx.scene.control.Alert;
 
 import java.net.Socket;
 import java.util.concurrent.TimeUnit;
 
 import static main.Config.GAME_IS_STARTED;
-import static main.Network.receive;
-import static main.Network.send;
+import static network.Network.receive;
+import static network.Network.send;
 
 public class WaitForOtherPlayers extends Task<Long> {
     Socket s;

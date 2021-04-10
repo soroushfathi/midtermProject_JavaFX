@@ -1,4 +1,4 @@
-package main;
+package network;
 
 import java.io.*;
 import java.net.Socket;
@@ -16,7 +16,7 @@ public class Network {
         public int size;
         public int player;
 
-        public Server(Socket socket, String name, String password, int port, int size, int player) {
+        public Server(String name, String password, int port, int size, int player) {
 
             this.name = name;
             this.port = port;
