@@ -28,13 +28,12 @@ public class Network {
     }
 
     public static void send(Socket s, String data) throws IOException, InterruptedException {
-        TimeUnit.MILLISECONDS.sleep(5);
         DataOutputStream out = new DataOutputStream(s.getOutputStream());
         out.writeUTF(data);
     }
 
     public static String receive(Socket s) throws IOException {
-        DataInputStream in = new DataInputStream(new BufferedInputStream(s.getInputStream()));
+        DataInputStream in = new DataInputStream(s.getInputStream());
         return in.readUTF();
     }
 
