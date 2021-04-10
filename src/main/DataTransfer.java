@@ -107,13 +107,10 @@ public class DataTransfer implements Runnable {
                                     a.setHeaderText("Game is ended");
                                     a.setContentText("Player "+ winner+1 +" win!!!");
                                     Optional<ButtonType> result = a.showAndWait();
-                                    result.ifPresent(__ -> {
-                                        System.exit(1);
-                                    });
+                                    result.ifPresent(__ ->System.exit(1));
 
-                                    GAME_IS_ENDED=true;
                             });
-
+                            GAME_IS_ENDED=true;
                         }
                     }
                 } catch (IOException | InterruptedException e) {
