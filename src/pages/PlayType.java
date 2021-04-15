@@ -13,8 +13,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import main.DataTransfer;
-import main.Search;
+import network.DataTransfer;
+import network.Search;
 
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;

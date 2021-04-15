@@ -1,4 +1,4 @@
-package main;
+package network;
 
 import javafx.concurrent.Task;
 
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static main.Config.SERVER_RESPONSE_TIMEOUT;
-import static main.Network.*;
+import static network.Network.*;
 
 public class Search  extends Task<Long> {
     public static List<Server> servers = new ArrayList<Server>();
@@ -34,7 +34,7 @@ public class Search  extends Task<Long> {
                                 send(s, "password");
                                 var password = receive(s);
                                 send(s, "close");
-                                servers.add(new Network.Server(s, name, password, i, size, player));
+                                servers.add(new Network.Server(name, password, i, size, player));
                                 break;
                             }
                         } catch (SocketTimeoutException e) {

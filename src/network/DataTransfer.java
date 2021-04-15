@@ -1,19 +1,17 @@
-package main;
+package network;
 
 import elements.ElementType;
 import elements.Loading;
 import elements.LoadingType;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import main.Move;
 import pages.Board;
-import pages.PrepareBoard;
+import network.WaitForOtherPlayers;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -24,7 +22,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import static main.Config.*;
-import static main.Network.*;
+import static network.Network.*;
 
 public class DataTransfer implements Runnable {
      static Server server;
@@ -98,20 +96,7 @@ public class DataTransfer implements Runnable {
                         setMove(s);
                         getTurn(s);
                         getLimit(s);
-                        send(s, "end?");
-                        var winner=Integer.parseInt(receive(s));
-                        if(winner>=0){
-                            Platform.runLater(()-> {
-                                    Alert a=new Alert(Alert.AlertType.INFORMATION);
-                                    a.initStyle(StageStyle.UNDECORATED);
-                                    a.setHeaderText("Game is ended");
-                                    a.setContentText("Player "+ winner+1 +" win!!!");
-                                    Optional<ButtonType> result = a.showAndWait();
-                                    result.ifPresent(__ ->System.exit(1));
-
-                            });
-                            GAME_IS_ENDED=true;
-                        }
+                        checkWinner(s);
                     }
                 } catch (IOException | InterruptedException e) {
                     System.out.println(e);
@@ -119,6 +104,23 @@ public class DataTransfer implements Runnable {
                 }
             }
 
+        }
+    }
+
+    private void checkWinner(Socket s) throws IOException, InterruptedException {
+        send(s, "end?");
+        var winner=Integer.parseInt(receive(s));
+        if(winner>=0){
+            Platform.runLater(()-> {
+                    Alert a=new Alert(Alert.AlertType.INFORMATION);
+                    a.initStyle(StageStyle.UNDECORATED);
+                    a.setHeaderText("Game is ended");
+                    a.setContentText("Player "+ winner+1 +" win!!!");
+                    Optional<ButtonType> result = a.showAndWait();
+                    result.ifPresent(__ ->System.exit(1));
+
+            });
+            GAME_IS_ENDED=true;
         }
     }
 
@@ -149,25 +151,22 @@ public class DataTransfer implements Runnable {
     }
 
     private static void waitingForPlayers(Socket s) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                Loading l=new Loading(LoadingType.SEARCH,"Wait for other players");
+        Platform.runLater(() -> {
+            Loading l=new Loading(LoadingType.SEARCH,"Wait for other players");
 
-                WaitForOtherPlayers task = new WaitForOtherPlayers(s);
-                ExecutorService executorService = Executors.newFixedThreadPool(1);
-                executorService.execute(task);
+            WaitForOtherPlayers task = new WaitForOtherPlayers(s);
+            ExecutorService executorService = Executors.newFixedThreadPool(1);
+            executorService.execute(task);
 
-                task.setOnRunning(__ ->l.show());
+            task.setOnRunning(__ ->l.show());
 
-                task.setOnSucceeded(__ -> {
-                    l.close();
-                    executorService.shutdown();
-                    GAME_IS_STARTED=true;
-                });
+            task.setOnSucceeded(__ -> {
+                l.close();
+                executorService.shutdown();
+                GAME_IS_STARTED=true;
+            });
 
-                }
-        });
+            });
     }
 
     private static void setMove(Socket s) throws IOException, InterruptedException {
