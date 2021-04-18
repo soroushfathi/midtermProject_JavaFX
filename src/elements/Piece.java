@@ -22,7 +22,7 @@ public class Piece extends Element {
     public int getPieceId() { return id; }
 
     public Piece(String color, int x, int y, int id) {
-        super(x, y, ElementType.PIECE);
+        super(x, y);
 
         this.id=id;
 
@@ -59,19 +59,19 @@ public class Piece extends Element {
 
             if (PLAY_TYPE != PlayType.NETWORK || (YOUR_TURN && id == MY_ID)) {
                 if (!PREPARE) {
-                    for (int i = this.x; i < WIDTH && (!Board.getBoard()[i][this.y].hasElement() || Board.getBoard()[i][this.y].getElement().getType() != ElementType.WALL) && (LIMIT==-1 ||(i - this.x) <= LIMIT); i++)
-                        if (!Board.getBoard()[i][this.y].hasElement() || Board.getBoard()[i][this.y].getElement().getType() == ElementType.SLOW || Board.getBoard()[i][this.y].getElement().getType() == ElementType.STAR)
+                    for (int i = this.x; i < WIDTH && (!Board.getBoard()[i][this.y].hasElement() || !(Board.getBoard()[i][this.y].getElement() instanceof Wall)) && (LIMIT==-1 ||(i - this.x) <= LIMIT); i++)
+                        if (!(Board.getBoard()[i][this.y].getElement() instanceof Piece))
                             Board.safeMargin[i][this.y].setVisible(true);
-                    for (int i = this.x; i >= 0 && (!Board.getBoard()[i][this.y].hasElement() || Board.getBoard()[i][this.y].getElement().getType() != ElementType.WALL) && (LIMIT==-1 ||(this.x - i) <= LIMIT); i--)
-                        if (!Board.getBoard()[i][this.y].hasElement() || Board.getBoard()[i][this.y].getElement().getType() == ElementType.SLOW || Board.getBoard()[i][this.y].getElement().getType() == ElementType.STAR)
+                    for (int i = this.x; i >= 0 && (!Board.getBoard()[i][this.y].hasElement() || !(Board.getBoard()[i][this.y].getElement() instanceof Wall)) && (LIMIT==-1 ||(this.x - i) <= LIMIT); i--)
+                        if (!(Board.getBoard()[i][this.y].getElement() instanceof Piece))
                             Board.safeMargin[i][this.y].setVisible(true);
 
 
-                    for (int j = this.y; j < HEIGHT && (!Board.getBoard()[this.x][j].hasElement() || Board.getBoard()[this.x][j].getElement().getType() != ElementType.WALL) && (LIMIT==-1 || (j - this.y) <= LIMIT); j++)
-                        if (!Board.getBoard()[this.x][j].hasElement() || Board.getBoard()[this.x][j].getElement().getType() == ElementType.SLOW || Board.getBoard()[this.x][j].getElement().getType() == ElementType.STAR)
+                    for (int j = this.y; j < HEIGHT && (!Board.getBoard()[this.x][j].hasElement() || !(Board.getBoard()[this.x][j].getElement() instanceof Wall)) && (LIMIT==-1 || (j - this.y) <= LIMIT); j++)
+                        if ((!(Board.getBoard()[this.x][j].getElement() instanceof Piece)))
                             Board.safeMargin[this.x][j].setVisible(true);
-                    for (int j = this.y; j >= 0 && (!Board.getBoard()[this.x][j].hasElement() || Board.getBoard()[this.x][j].getElement().getType() != ElementType.WALL) && (LIMIT==-1 ||(this.y - j) <= LIMIT); j--)
-                        if (!Board.getBoard()[this.x][j].hasElement() || Board.getBoard()[this.x][j].getElement().getType() == ElementType.SLOW || Board.getBoard()[this.x][j].getElement().getType() == ElementType.STAR)
+                    for (int j = this.y; j >= 0 && (!Board.getBoard()[this.x][j].hasElement() || !(Board.getBoard()[this.x][j].getElement() instanceof Wall)) && (LIMIT==-1 ||(this.y - j) <= LIMIT); j--)
+                        if ((!(Board.getBoard()[this.x][j].getElement() instanceof Piece)))
                             Board.safeMargin[this.x][j].setVisible(true);
                 }
 

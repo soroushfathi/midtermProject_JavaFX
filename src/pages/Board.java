@@ -49,9 +49,9 @@ public class Board {
 
                 Element element = getBoard()[x][y].getElement();
 
-                if (element != null && element.getType() != ElementType.PIECE)
+                if (element != null && !(element instanceof Piece))
                     elementGroup.getChildren().add(element);
-                else if (element != null && element.getType() == ElementType.PIECE)
+                else if (element != null)
                     pieceGroup.getChildren().add(element);
 
             }

@@ -110,13 +110,13 @@ public class DataTransfer implements Runnable {
 
     private void checkWinner(Socket s) throws IOException, InterruptedException {
         send(s, "end?");
-        var winner=Integer.parseInt(receive(s));
+        int winner=Integer.parseInt(receive(s));
         if(winner>=0){
             Platform.runLater(()-> {
                     Alert a=new Alert(Alert.AlertType.INFORMATION);
                     a.initStyle(StageStyle.UNDECORATED);
                     a.setHeaderText("Game is ended");
-                    a.setContentText("Player "+ winner+1 +" win!!!");
+                    a.setContentText("Player "+ String.valueOf(winner+1) +" win!!!");
                     Optional<ButtonType> result = a.showAndWait();
                     result.ifPresent(__ ->System.exit(1));
 
@@ -190,7 +190,7 @@ public class DataTransfer implements Runnable {
                 Platform.runLater(()-> {
                     for (var t : Board.getBoard())
                         for (var tile : t)
-                            if (tile.hasElement() &&tile.getElement().getType()==ElementType.PIECE &&((Piece)tile.getElement()).getPieceId() == finalI)
+                            if (tile.hasElement() &&tile.getElement() instanceof Piece &&((Piece)tile.getElement()).getPieceId() == finalI)
                                 if (tile.getElement().getX() != x2 || tile.getElement().getY() != y2)
                                     Move.set(Board.getBoard(), tile.getElement().getX(), tile.getElement().getY(), x2, y2);
 

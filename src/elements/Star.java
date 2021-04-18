@@ -13,7 +13,7 @@ import static main.Config.TILE_SIZE;
 public class Star extends Element {
 
     public Star(int x, int y) {
-        super(x, y, ElementType.STAR);
+        super(x, y);
         Rectangle star = new Rectangle(TILE_SIZE, TILE_SIZE);
 
         Image map = new Image("elements/assets/star.png");
