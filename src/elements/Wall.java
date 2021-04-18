@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
-import static main.Config.PREPARE;
+import static main.Globals.PREPARE;
 import static main.Config.TILE_SIZE;
 
 public class Wall extends Element {

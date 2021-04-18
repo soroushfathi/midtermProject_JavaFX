@@ -1,22 +1,14 @@
 package elements;
 
-import pages.Board;
 import javafx.scene.layout.StackPane;
-import main.Move;
 
-import static main.Config.PREPARE;
+import static main.Globals.PREPARE;
 import static main.Config.TILE_SIZE;
 
 public class Element extends StackPane {
     protected int x, y;
-    public int value,id=-1;
-    public String color;
 
-    public int getValue() {
-        return value;
-    }
-
-    ElementType type;
+    private final ElementType type;
 
     public Element(int x, int y, ElementType type) {
         this.x = x;
@@ -24,14 +16,12 @@ public class Element extends StackPane {
         this.type = type;
         move(x, y);
 
-
         setOnContextMenuRequested(e -> {
             if (PREPARE && type != ElementType.PIECE) {
                 DropdownMenu dm = new DropdownMenu(true, x, y);
                 dm.show(this, e.getScreenX(), e.getScreenY());
             }
         });
-
 
     }
 

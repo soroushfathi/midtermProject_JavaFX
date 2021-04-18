@@ -1,5 +1,6 @@
 package elements;
 
+import main.Globals;
 import pages.Board;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -32,9 +33,9 @@ public class Setting extends GridPane {
         getChildren().add(submit);
 
         submit.setOnMouseClicked(e -> {
-            PREPARE = false;
+            Globals.PREPARE = false;
             Board board = new Board();
-            Board.board = PrepareBoard.board;
+            Board.setBoard(PrepareBoard.getBoard());
             Stage stage = new Stage();
             stage.setTitle("Game");
             stage.setScene(new Scene(board.build()));
@@ -61,7 +62,7 @@ public class Setting extends GridPane {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     if ((x + y) % 2 == 0)
-                        PrepareBoard.board[x][y].setFill(c);
+                        PrepareBoard.getBoard()[x][y].setFill(c);
                 }
             }
         });
@@ -70,7 +71,7 @@ public class Setting extends GridPane {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     if ((x + y) % 2 == 1)
-                        PrepareBoard.board[x][y].setFill(c);
+                        PrepareBoard.getBoard()[x][y].setFill(c);
                 }
             }
         });

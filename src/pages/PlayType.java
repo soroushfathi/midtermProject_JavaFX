@@ -70,7 +70,7 @@ public class PlayType extends GridPane {
                 ObservableList<String> items = FXCollections.observableArrayList();
 
                 for (var server : servers)
-                    items.add(server.name + ":" + server.port + "   " + server.player + "/" + server.size);
+                    items.add(server.getName() + ":" + server.getPort() + "   " + server.getPlayer() + "/" + server.getSize());
                 list.setItems(items);
                 list.setCellFactory((ListView<String> p) -> new ColoredCell());
             });
@@ -91,8 +91,8 @@ public class PlayType extends GridPane {
                         if (e.getClickCount() == 2) {
                             for (var server : Search.servers) {
 
-                                if (item.substring(0, item.indexOf(" ")).equals(server.name + ":" + server.port)) {
-                                    if (server.password.length() > 0) {
+                                if (item.substring(0, item.indexOf(" ")).equals(server.getName() + ":" + server.getPort())) {
+                                    if (server.getPassword().length() > 0) {
                                         System.out.println("hello");
                                         TextInputDialog dialog = new TextInputDialog();
                                         Optional<String> result;
@@ -104,7 +104,7 @@ public class PlayType extends GridPane {
 
                                         result = dialog.showAndWait();
                                         result.ifPresent(p -> {
-                                            if (p.equals(server.password)) {
+                                            if (p.equals(server.getPassword())) {
                                                // ((Node) (e.getSource())).getScene().getWindow().hide();
                                                 Thread t = new Thread(new DataTransfer(server));
                                                 t.start();

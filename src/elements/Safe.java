@@ -1,5 +1,6 @@
 package elements;
 
+import javafx.scene.layout.StackPane;
 import pages.Board;
 import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
@@ -8,9 +9,9 @@ import main.Move;
 
 import static main.Config.*;
 
-public class Safe extends Element {
+public class Safe extends StackPane {
     public Safe(int x, int y) {
-        super(x, y, ElementType.SAFE);
+        move(x, y);
         Rectangle r = new Rectangle(TILE_SIZE, TILE_SIZE);
         r.setOpacity(SAFE_OPACITY);
         r.setFill(Color.valueOf(SAFE_COLOR));
@@ -26,7 +27,7 @@ public class Safe extends Element {
             int x2 = (int) e.getSceneX() / TILE_SIZE;
             int y2 = (int) e.getSceneY() / TILE_SIZE;
             if (Board.safeMargin[x2][y2].isVisible())
-                Board.board[x1][y1].getElement().relocate(x2 * TILE_SIZE, y2 * TILE_SIZE);
+                Board.getBoard()[x1][y1].getElement().relocate(x2 * TILE_SIZE, y2 * TILE_SIZE);
 
         });
 
@@ -40,7 +41,7 @@ public class Safe extends Element {
             if (Board.safeMargin[x2][y2].isVisible()) {
 
 
-                Move.set(Board.board, x1, y1, x2, y2);
+                Move.set(Board.getBoard(), x1, y1, x2, y2);
 
                 for (int i = 0; i < WIDTH; i++)
                     Board.safeMargin[i][y1].setVisible(false);
@@ -52,7 +53,6 @@ public class Safe extends Element {
     }
 
     public void move(int x, int y) {
-
         relocate(x * TILE_SIZE, y * TILE_SIZE);
     }
 

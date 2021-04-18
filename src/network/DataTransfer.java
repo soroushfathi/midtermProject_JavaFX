@@ -3,6 +3,7 @@ package network;
 import elements.ElementType;
 import elements.Loading;
 import elements.LoadingType;
+import elements.Piece;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -11,7 +12,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import main.Move;
 import pages.Board;
-import network.WaitForOtherPlayers;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -22,10 +22,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import static main.Config.*;
+import static main.Globals.*;
 import static network.Network.*;
 
 public class DataTransfer implements Runnable {
-     static Server server;
+    private static Server server;
 
     public DataTransfer(Server s) {
         server = s;
@@ -36,7 +37,7 @@ public class DataTransfer implements Runnable {
 
         Socket s = new Socket();
         try {
-            s = new Socket("localhost", server.port);
+            s = new Socket("localhost", server.getPort());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -178,8 +179,8 @@ public class DataTransfer implements Runnable {
     }
 
     private static void getLastMove(Socket s) throws IOException, InterruptedException {
-        for(int i=0;i<server.size;i++){
-            if(i!=MY_ID) {
+        for(int i = 0; i< server.getSize(); i++){
+            if(i!= MY_ID) {
                 send(s, "l:" + i);
                 var data = receive(s);
                 var x2 = Integer.parseInt(data.substring(0, data.indexOf("|")));
@@ -187,11 +188,11 @@ public class DataTransfer implements Runnable {
 
                 int finalI = i;
                 Platform.runLater(()-> {
-                    for (var t : Board.board)
+                    for (var t : Board.getBoard())
                         for (var tile : t)
-                            if (tile.hasElement() && tile.getElement().id == finalI)
+                            if (tile.hasElement() &&tile.getElement().getType()==ElementType.PIECE &&((Piece)tile.getElement()).getPieceId() == finalI)
                                 if (tile.getElement().getX() != x2 || tile.getElement().getY() != y2)
-                                    Move.set(Board.board, tile.getElement().getX(), tile.getElement().getY(), x2, y2);
+                                    Move.set(Board.getBoard(), tile.getElement().getX(), tile.getElement().getY(), x2, y2);
 
                 });
             }

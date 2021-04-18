@@ -1,20 +1,19 @@
 package network;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.*;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+
 
 public class Network {
 
     public static class Server {
-        public String name;
-        public String password;
-        public int port;
-        public int size;
-        public int player;
+        private final String name;
+        private final String password;
+        private final int port;
+        private final int size;
+        private final int player;
 
         public Server(String name, String password, int port, int size, int player) {
 
@@ -25,9 +24,28 @@ public class Network {
             this.password = password;
         }
 
+        public String getName() {
+            return name;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public int getPort() {
+            return port;
+        }
+
+        public int getSize() {
+            return size;
+        }
+
+        public int getPlayer() {
+            return player;
+        }
     }
 
-    public static void send(Socket s, String data) throws IOException, InterruptedException {
+    public static void send(@NotNull Socket s, String data) throws IOException, InterruptedException {
         DataOutputStream out = new DataOutputStream(s.getOutputStream());
         out.writeUTF(data);
     }

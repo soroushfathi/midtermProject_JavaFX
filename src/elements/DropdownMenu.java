@@ -10,7 +10,7 @@ import java.util.Optional;
 public class DropdownMenu extends ContextMenu {
     public DropdownMenu(boolean removeAble, int x, int y) {
 
-        Menu AddItem = new Menu(PrepareBoard.board[x][y].hasElement() ? "Replace" : "Add");
+        Menu AddItem = new Menu(PrepareBoard.getBoard()[x][y].hasElement() ? "Replace" : "Add");
         MenuItem wall = new MenuItem("Wall");
         MenuItem slow = new MenuItem("Slow");
         MenuItem star = new MenuItem("Star");
@@ -22,11 +22,11 @@ public class DropdownMenu extends ContextMenu {
         removeItem.setDisable(!removeAble);
 
         wall.setOnAction(e -> {
-            if (PrepareBoard.board[x][y].hasElement()) {
-                PrepareBoard.board[x][y].getElement().setVisible(false);
+            if (PrepareBoard.getBoard()[x][y].hasElement()) {
+                PrepareBoard.getBoard()[x][y].getElement().setVisible(false);
             }
-            PrepareBoard.walls[x][y].setVisible(true);
-            PrepareBoard.board[x][y].setElement(PrepareBoard.walls[x][y]);
+            PrepareBoard.getWalls()[x][y].setVisible(true);
+            PrepareBoard.getBoard()[x][y].setElement(PrepareBoard.getWalls()[x][y]);
         });
 
         slow.setOnAction(e -> {
@@ -41,27 +41,32 @@ public class DropdownMenu extends ContextMenu {
 
             Optional<String> result = dialog.showAndWait();
             result.ifPresent(s ->{
-                if (PrepareBoard.board[x][y].hasElement()) {
-                    PrepareBoard.board[x][y].getElement().setVisible(false);
+                try {
+                    int value = Integer.parseInt(s);
+                    if (PrepareBoard.getBoard()[x][y].hasElement()) {
+                        PrepareBoard.getBoard()[x][y].getElement().setVisible(false);
+                    }
+                    PrepareBoard.getSlows()[x][y].setVisible(true);
+                    PrepareBoard.getSlows()[x][y].setValue(value);
+                    PrepareBoard.getBoard()[x][y].setElement(PrepareBoard.getSlows()[x][y]);
+                }catch(Exception ex){
+                    Error error=new Error("Value is not valid");
                 }
-                PrepareBoard.slows[x][y].setVisible(true);
-                PrepareBoard.slows[x][y].setValue(Integer.parseInt(s));
-                PrepareBoard.board[x][y].setElement(PrepareBoard.slows[x][y]);
             } );
 
         });
 
         star.setOnAction(e -> {
-            if (PrepareBoard.board[x][y].hasElement()) {
-                PrepareBoard.board[x][y].getElement().setVisible(false);
+            if (PrepareBoard.getBoard()[x][y].hasElement()) {
+                PrepareBoard.getBoard()[x][y].getElement().setVisible(false);
             }
-            PrepareBoard.stars[x][y].setVisible(true);
-            PrepareBoard.board[x][y].setElement(PrepareBoard.stars[x][y]);
+            PrepareBoard.getStars()[x][y].setVisible(true);
+            PrepareBoard.getBoard()[x][y].setElement(PrepareBoard.getStars()[x][y]);
         });
 
         removeItem.setOnAction(e -> {
-            PrepareBoard.board[x][y].getElement().setVisible(false);
-            PrepareBoard.board[x][y].setElement(null);
+            PrepareBoard.getBoard()[x][y].getElement().setVisible(false);
+            PrepareBoard.getBoard()[x][y].setElement(null);
         });
         // Add MenuItem to ContextMenu
         getItems().addAll(AddItem, removeItem);
