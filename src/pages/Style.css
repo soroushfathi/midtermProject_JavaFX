@@ -1,0 +1,44 @@
+@font-face {
+    font-family: Dimbo;
+    src: url("../assets/Dimbo.ttf");
+}
+.root{
+    -fx-font-size: 22;
+    -fx-font-family: 'Dimbo';
+    -fx-background-color: rgba(0, 100, 100, 0);;
+}
+.play-type{
+    -fx-background-image: url("../assets/panel1.png");
+    -fx-background-repeat: stretch;
+    -fx-pref-width: 500px;
+    -fx-pref-height: 720px;
+}
+.button{
+    -fx-background-image: url("../assets/normalBtn.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size:300 90;
+    -fx-pref-width: 300px;
+    -fx-pref-height: 90px;
+    -fx-background-color: rgba(0, 100, 100, 0);
+
+}
+.button:hover {
+    -fx-background-image: url("../assets/hoverBtn.png");
+}
+.button:pressed {
+    -fx-background-image: url("../assets/clickBtn.png");
+}
+.list-view {
+    -fx-background-color: rgb(213, 173,81);
+    -fx-pref-height: 300px;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+}
+.board{
+    -fx-background-image: url("../assets/panel2.png");
+    -fx-pref-width: 665px;
+    -fx-pref-height: 875px;
+    -fx-background-color: rgba(0, 100, 100, 0);
+}
+
+
