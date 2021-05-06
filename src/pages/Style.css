@@ -21,6 +21,7 @@
     -fx-pref-height: 90px;
     -fx-background-color: rgba(0, 100, 100, 0);
 
+
 }
 .button:hover {
     -fx-background-image: url("../assets/hoverBtn.png");
@@ -36,9 +37,12 @@
 }
 .board{
     -fx-background-image: url("../assets/panel2.png");
-    -fx-pref-width: 665px;
-    -fx-pref-height: 875px;
+    -fx-background-size:665 875;
+    -fx-pref-width: 665;
+    -fx-pref-height: 875;
+    -fx-font-size: 18;
     -fx-background-color: rgba(0, 100, 100, 0);
 }
+
 
 

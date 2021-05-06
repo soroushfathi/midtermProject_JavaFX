@@ -16,9 +16,11 @@ import static main.Config.*;
 
 public class Setting extends GridPane {
     public Setting() {
+        // getStylesheets().add("pages/Style.css");
+
         setPadding(new Insets(10, 10, 10, 10));
-        setVgap(5);
-        setHgap(5);
+        setVgap(2);
+        setHgap(2);
 
         ColorPicker fcp = new ColorPicker(Color.valueOf(FIRST_COLOR));
         setConstraints(fcp, 0, 0);

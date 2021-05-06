@@ -10,12 +10,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import network.DataTransfer;
 import network.Search;
 
+import java.io.File;
+import java.net.URL;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,25 +31,30 @@ public class PlayType extends GridPane {
         setPadding(new Insets(10, 10, 10, 10));
         setVgap(5);
         setHgap(5);
+        getStylesheets().add("pages/Style.css");
+        getStyleClass().add("play-type");
 
         Button local = new Button("Play on LOCAL");
-        setConstraints(local, 0, 0);
+        setConstraints(local, 18, 20);
         local.setPrefWidth(200);
         getChildren().add(local);
 
 
         Button network = new Button("Search for NETWORK");
-        setConstraints(network, 0, 1);
+        setConstraints(network, 18, 21);
         network.setPrefWidth(200);
         getChildren().add(network);
 
         ListView<String> list = new ListView<>();
-        setConstraints(list, 0, 2);
+        setConstraints(list, 18, 22);
         list.setPrefSize(200, 200);
         getChildren().add(list);
 
+//        local.setOnMouseEntered(e->playSound("src/assets/hover.mp3"));
+//        network.setOnMouseEntered(e->playSound("src/assets/hover.mp3"));
+
         local.setOnAction(e -> {
-            PrepareBoard pBoard = new PrepareBoard();
+//            playSound("src/assets/click.mp3");
             PrepareBoard board = new PrepareBoard();
             Stage stage = new Stage();
             stage.setTitle("Game");
@@ -55,6 +64,7 @@ public class PlayType extends GridPane {
             ((Node) (e.getSource())).getScene().getWindow().hide();
         });
         network.setOnAction(e -> {
+//            playSound("src/assets/click.mp3");
             PLAY_TYPE = main.PlayType.NETWORK;
             Search task = new Search();
             ExecutorService executorService = Executors.newFixedThreadPool(1);
@@ -76,6 +86,12 @@ public class PlayType extends GridPane {
             });
         });
 
+    }
+
+    public void playSound(String path) {
+        Media media = new Media(new File(path).toURI().toString());
+        MediaPlayer md = new MediaPlayer(media);
+        md.play();
     }
 
     private static class ColoredCell extends ListCell<String> {
@@ -105,15 +121,13 @@ public class PlayType extends GridPane {
                                         result = dialog.showAndWait();
                                         result.ifPresent(p -> {
                                             if (p.equals(server.getPassword())) {
-                                               // ((Node) (e.getSource())).getScene().getWindow().hide();
-                                                Thread t = new Thread(new DataTransfer(server));
+                                                Thread t = new Thread(new DataTransfer(server, ((Node) (e.getSource())).getScene()));
                                                 t.start();
                                             } else
                                                 System.out.println("wrong");
                                         });
                                     } else {
-                                        //((Node) (e.getSource())).getScene().getWindow().hide();
-                                        Thread t = new Thread(new DataTransfer(server));
+                                        Thread t = new Thread(new DataTransfer(server, ((Node) (e.getSource())).getScene()));
                                         t.start();
                                     }
 

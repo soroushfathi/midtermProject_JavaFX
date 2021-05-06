@@ -16,6 +16,9 @@ public class Safe extends StackPane {
         r.setOpacity(SAFE_OPACITY);
         r.setFill(Color.valueOf(SAFE_COLOR));
 
+        var dy=100+(550-HEIGHT * TILE_SIZE)/2;
+        var dx=110+(450- WIDTH* TILE_SIZE)/2;
+
         getChildren().addAll(r);
         setVisible(false);
 
@@ -24,8 +27,8 @@ public class Safe extends StackPane {
             var data = e.getDragboard().getString();
             var x1 = Integer.parseInt(data.substring(0, data.indexOf("|")));
             var y1 = Integer.parseInt(data.substring(data.indexOf("|") + 1));
-            int x2 = (int) e.getSceneX() / TILE_SIZE;
-            int y2 = (int) e.getSceneY() / TILE_SIZE;
+            int x2 = (int)( e.getSceneX()-dx) / TILE_SIZE;
+            int y2 = (int) (e.getSceneY()-dy) / TILE_SIZE;
             if (Board.safeMargin[x2][y2].isVisible())
                 Board.getBoard()[x1][y1].getElement().relocate(x2 * TILE_SIZE, y2 * TILE_SIZE);
 
@@ -36,8 +39,8 @@ public class Safe extends StackPane {
             var x1 = Integer.parseInt(data.substring(0, data.indexOf("|")));
             var y1 = Integer.parseInt(data.substring(data.indexOf("|") + 1));
 
-            int x2 = (int) e.getSceneX() / TILE_SIZE;
-            int y2 = (int) e.getSceneY() / TILE_SIZE;
+            int x2 = (int) ( e.getSceneX()-dx)  / TILE_SIZE;
+            int y2 = (int) ( e.getSceneY()-dy)  / TILE_SIZE;
             if (Board.safeMargin[x2][y2].isVisible()) {
 
 

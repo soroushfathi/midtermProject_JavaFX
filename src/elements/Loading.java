@@ -16,7 +16,7 @@ public class Loading extends Alert {
         r.setHeight(300/map.getWidth()*map.getHeight());
         ImagePattern pattern = new ImagePattern(map);
         r.setFill(pattern);
-        initStyle(StageStyle.UNDECORATED);
+        initStyle(StageStyle.TRANSPARENT);
         setHeaderText(header);
         getDialogPane().lookupButton(ButtonType.OK).setVisible(false);
         getDialogPane().setContent(r);

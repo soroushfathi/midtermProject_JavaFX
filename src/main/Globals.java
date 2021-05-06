@@ -1,9 +1,12 @@
 package main;
 
+
 public class Globals {
     public static boolean PREPARE = true;
 
     public static int LIMIT = -1;
+
+    public static int SCORE = 0;
 
     public static boolean YOUR_TURN = false;
     public static int MY_ID;
@@ -14,4 +17,6 @@ public class Globals {
     public static boolean GAME_IS_ENDED = false;
 
     public static Player[] players = new Player[2];
+
+
 }

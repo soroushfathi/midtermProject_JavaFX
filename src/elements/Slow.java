@@ -1,5 +1,6 @@
 package elements;
 
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -22,12 +23,11 @@ public class Slow extends Element {
 
         Rectangle slow = new Rectangle(0, 0, TILE_SIZE, TILE_SIZE);
 
-        Image map = new Image("elements/assets/slow.png");
+        Image map = new Image("elements/assets/slow.gif");
         ImagePattern pattern = new ImagePattern(map);
         slow.setFill(pattern);
 
         setVisible(!PREPARE);
-
         getChildren().addAll(slow);
     }
 

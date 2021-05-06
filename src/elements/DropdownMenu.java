@@ -49,6 +49,10 @@ public class DropdownMenu extends ContextMenu {
                     PrepareBoard.getSlows()[x][y].setVisible(true);
                     PrepareBoard.getSlows()[x][y].setValue(value);
                     PrepareBoard.getBoard()[x][y].setElement(PrepareBoard.getSlows()[x][y]);
+                    Tooltip.install(
+                            PrepareBoard.getSlows()[x][y],
+                            new Tooltip("Value is: "+value)
+                    );
                 }catch(Exception ex){
                     Error error=new Error("Value is not valid");
                 }
