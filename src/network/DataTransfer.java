@@ -3,32 +3,44 @@ package network;
 import elements.ElementType;
 import elements.Loading;
 import elements.LoadingType;
+import elements.Piece;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
+import main.Globals;
 import main.Move;
 import pages.Board;
-import network.WaitForOtherPlayers;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import static main.Config.*;
+import static main.Globals.*;
 import static network.Network.*;
 
 public class DataTransfer implements Runnable {
-     static Server server;
+    private static Server server;
+    private static Scene sc;
+    int l = 0;
 
-    public DataTransfer(Server s) {
+    public DataTransfer(Server s,Scene sc) {
         server = s;
+        this.sc=sc;
     }
 
     @Override
@@ -36,7 +48,7 @@ public class DataTransfer implements Runnable {
 
         Socket s = new Socket();
         try {
-            s = new Socket("localhost", server.port);
+            s = new Socket("localhost", server.getPort());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,7 +86,6 @@ public class DataTransfer implements Runnable {
                         SECOND_COLOR = receive(s);
                         PREPARE = false;
                         drawBoard(elements, colors, values, id);
-                        System.gc();
                         break;
                     }
                 } catch (ClassNotFoundException | InterruptedException | IOException e) {
@@ -91,11 +102,13 @@ public class DataTransfer implements Runnable {
                         showWait = false;
                         waitingForPlayers(s);
                     }
+
                     if (GAME_IS_STARTED) {
                         getLastMove(s);
                         setMove(s);
                         getTurn(s);
                         getLimit(s);
+                        getScore(s);
                         checkWinner(s);
                     }
                 } catch (IOException | InterruptedException e) {
@@ -107,15 +120,20 @@ public class DataTransfer implements Runnable {
         }
     }
 
+    private void getScore(Socket s) throws IOException, InterruptedException {
+        send(s, "score?");
+        SCORE=Integer.parseInt(receive(s));
+    }
+
     private void checkWinner(Socket s) throws IOException, InterruptedException {
         send(s, "end?");
-        var winner=Integer.parseInt(receive(s));
+        int winner=Integer.parseInt(receive(s));
         if(winner>=0){
             Platform.runLater(()-> {
                     Alert a=new Alert(Alert.AlertType.INFORMATION);
                     a.initStyle(StageStyle.UNDECORATED);
                     a.setHeaderText("Game is ended");
-                    a.setContentText("Player "+ winner+1 +" win!!!");
+                    a.setContentText("Player "+ (winner + 1) +" win!!!");
                     Optional<ButtonType> result = a.showAndWait();
                     result.ifPresent(__ ->System.exit(1));
 
@@ -139,15 +157,18 @@ public class DataTransfer implements Runnable {
     private static void drawBoard(ElementType[][] elements, String[][] colors, int[][] values, int[][] id) {
         Board board = new Board();
         Board.TranslateBoard(elements, colors, values, id);
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                Stage stage = new Stage();
-                stage.setTitle("Game");
-                stage.setScene(new Scene(board.build()));
-                stage.show();
-            }
+        Platform.runLater(() -> {
+            Stage stage = new Stage();
+            Scene scene=new Scene(board.build());
+            stage.setTitle("Game");
+            stage.setScene(scene);
+            scene.setFill(Color.TRANSPARENT);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.show();
+
+            sc.getWindow().hide();
         });
+
     }
 
     private static void waitingForPlayers(Socket s) {
@@ -178,8 +199,8 @@ public class DataTransfer implements Runnable {
     }
 
     private static void getLastMove(Socket s) throws IOException, InterruptedException {
-        for(int i=0;i<server.size;i++){
-            if(i!=MY_ID) {
+        for(int i = 0; i< server.getSize(); i++){
+            if(i!= MY_ID) {
                 send(s, "l:" + i);
                 var data = receive(s);
                 var x2 = Integer.parseInt(data.substring(0, data.indexOf("|")));
@@ -187,11 +208,11 @@ public class DataTransfer implements Runnable {
 
                 int finalI = i;
                 Platform.runLater(()-> {
-                    for (var t : Board.board)
+                    for (var t : Board.getBoard())
                         for (var tile : t)
-                            if (tile.hasElement() && tile.getElement().id == finalI)
+                            if (tile.hasElement() &&tile.getElement() instanceof Piece &&((Piece)tile.getElement()).getPieceId() == finalI)
                                 if (tile.getElement().getX() != x2 || tile.getElement().getY() != y2)
-                                    Move.set(Board.board, tile.getElement().getX(), tile.getElement().getY(), x2, y2);
+                                    Move.set(Board.getBoard(), tile.getElement().getX(), tile.getElement().getY(), x2, y2);
 
                 });
             }

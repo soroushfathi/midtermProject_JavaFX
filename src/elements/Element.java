@@ -1,43 +1,27 @@
 package elements;
 
-import pages.Board;
 import javafx.scene.layout.StackPane;
-import main.Move;
 
-import static main.Config.PREPARE;
+import static main.Globals.PREPARE;
 import static main.Config.TILE_SIZE;
 
-public class Element extends StackPane {
+public abstract class Element extends StackPane {
     protected int x, y;
-    public int value,id=-1;
-    public String color;
 
-    public int getValue() {
-        return value;
-    }
-
-    ElementType type;
-
-    public Element(int x, int y, ElementType type) {
+    public Element(int x, int y) {
         this.x = x;
         this.y = y;
-        this.type = type;
         move(x, y);
 
-
         setOnContextMenuRequested(e -> {
-            if (PREPARE && type != ElementType.PIECE) {
+            if (PREPARE && ! (this instanceof Piece)) {
                 DropdownMenu dm = new DropdownMenu(true, x, y);
                 dm.show(this, e.getScreenX(), e.getScreenY());
             }
         });
 
-
     }
 
-    public ElementType getType() {
-        return type;
-    }
 
     public int getX() {
         return x;

@@ -5,12 +5,12 @@ import javafx.concurrent.Task;
 import java.net.Socket;
 import java.util.concurrent.TimeUnit;
 
-import static main.Config.GAME_IS_STARTED;
+import static main.Globals.GAME_IS_STARTED;
 import static network.Network.receive;
 import static network.Network.send;
 
 public class WaitForOtherPlayers extends Task<Long> {
-    Socket s;
+    private final Socket s;
     public WaitForOtherPlayers(Socket s){
         this.s=s;
     }

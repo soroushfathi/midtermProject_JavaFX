@@ -10,12 +10,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import network.DataTransfer;
 import network.Search;
 
+import java.io.File;
+import java.net.URL;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,25 +31,30 @@ public class PlayType extends GridPane {
         setPadding(new Insets(10, 10, 10, 10));
         setVgap(5);
         setHgap(5);
+        getStylesheets().add("pages/Style.css");
+        getStyleClass().add("play-type");
 
         Button local = new Button("Play on LOCAL");
-        setConstraints(local, 0, 0);
+        setConstraints(local, 18, 20);
         local.setPrefWidth(200);
         getChildren().add(local);
 
 
         Button network = new Button("Search for NETWORK");
-        setConstraints(network, 0, 1);
+        setConstraints(network, 18, 21);
         network.setPrefWidth(200);
         getChildren().add(network);
 
         ListView<String> list = new ListView<>();
-        setConstraints(list, 0, 2);
+        setConstraints(list, 18, 22);
         list.setPrefSize(200, 200);
         getChildren().add(list);
 
+//        local.setOnMouseEntered(e->playSound("src/assets/hover.mp3"));
+//        network.setOnMouseEntered(e->playSound("src/assets/hover.mp3"));
+
         local.setOnAction(e -> {
-            PrepareBoard pBoard = new PrepareBoard();
+//            playSound("src/assets/click.mp3");
             PrepareBoard board = new PrepareBoard();
             Stage stage = new Stage();
             stage.setTitle("Game");
@@ -55,6 +64,7 @@ public class PlayType extends GridPane {
             ((Node) (e.getSource())).getScene().getWindow().hide();
         });
         network.setOnAction(e -> {
+//            playSound("src/assets/click.mp3");
             PLAY_TYPE = main.PlayType.NETWORK;
             Search task = new Search();
             ExecutorService executorService = Executors.newFixedThreadPool(1);
@@ -70,12 +80,18 @@ public class PlayType extends GridPane {
                 ObservableList<String> items = FXCollections.observableArrayList();
 
                 for (var server : servers)
-                    items.add(server.name + ":" + server.port + "   " + server.player + "/" + server.size);
+                    items.add(server.getName() + ":" + server.getPort() + "   " + server.getPlayer() + "/" + server.getSize());
                 list.setItems(items);
                 list.setCellFactory((ListView<String> p) -> new ColoredCell());
             });
         });
 
+    }
+
+    public void playSound(String path) {
+        Media media = new Media(new File(path).toURI().toString());
+        MediaPlayer md = new MediaPlayer(media);
+        md.play();
     }
 
     private static class ColoredCell extends ListCell<String> {
@@ -91,8 +107,8 @@ public class PlayType extends GridPane {
                         if (e.getClickCount() == 2) {
                             for (var server : Search.servers) {
 
-                                if (item.substring(0, item.indexOf(" ")).equals(server.name + ":" + server.port)) {
-                                    if (server.password.length() > 0) {
+                                if (item.substring(0, item.indexOf(" ")).equals(server.getName() + ":" + server.getPort())) {
+                                    if (server.getPassword().length() > 0) {
                                         System.out.println("hello");
                                         TextInputDialog dialog = new TextInputDialog();
                                         Optional<String> result;
@@ -104,16 +120,14 @@ public class PlayType extends GridPane {
 
                                         result = dialog.showAndWait();
                                         result.ifPresent(p -> {
-                                            if (p.equals(server.password)) {
-                                               // ((Node) (e.getSource())).getScene().getWindow().hide();
-                                                Thread t = new Thread(new DataTransfer(server));
+                                            if (p.equals(server.getPassword())) {
+                                                Thread t = new Thread(new DataTransfer(server, ((Node) (e.getSource())).getScene()));
                                                 t.start();
                                             } else
                                                 System.out.println("wrong");
                                         });
                                     } else {
-                                        //((Node) (e.getSource())).getScene().getWindow().hide();
-                                        Thread t = new Thread(new DataTransfer(server));
+                                        Thread t = new Thread(new DataTransfer(server, ((Node) (e.getSource())).getScene()));
                                         t.start();
                                     }
 

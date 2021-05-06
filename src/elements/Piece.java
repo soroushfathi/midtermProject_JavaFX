@@ -1,6 +1,5 @@
 package elements;
 
-import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.ClipboardContent;
@@ -13,15 +12,19 @@ import main.PlayType;
 import pages.Board;
 
 import static main.Config.*;
+import static main.Globals.*;
 
 
 public class Piece extends Element {
 
+    private final int id;
+
+    public int getPieceId() { return id; }
 
     public Piece(String color, int x, int y, int id) {
-        super(x, y, ElementType.PIECE);
-        super.color = color;
-        super.id=id;
+        super(x, y);
+
+        this.id=id;
 
         Label l = new Label(id == MY_ID ? "YOU" : String.valueOf(id+1));
         l.setTranslateX(TILE_SIZE / 4 - 3);
@@ -52,21 +55,23 @@ public class Piece extends Element {
         alert.setHeaderText("Error!!!");
         alert.initStyle(StageStyle.UNDECORATED);
         setOnDragDetected(e -> {
+
+
             if (PLAY_TYPE != PlayType.NETWORK || (YOUR_TURN && id == MY_ID)) {
                 if (!PREPARE) {
-                    for (int i = this.x; i < WIDTH && (!Board.board[i][this.y].hasElement() || Board.board[i][this.y].getElement().getType() != ElementType.WALL) && (LIMIT==-1 ||(i - this.x) <= LIMIT); i++)
-                        if (!Board.board[i][this.y].hasElement() || Board.board[i][this.y].getElement().getType() == ElementType.SLOW || Board.board[i][this.y].getElement().getType() == ElementType.STAR)
+                    for (int i = this.x; i < WIDTH && (!Board.getBoard()[i][this.y].hasElement() || !(Board.getBoard()[i][this.y].getElement() instanceof Wall)) && (LIMIT==-1 ||(i - this.x) <= LIMIT); i++)
+                        if (!(Board.getBoard()[i][this.y].getElement() instanceof Piece))
                             Board.safeMargin[i][this.y].setVisible(true);
-                    for (int i = this.x; i >= 0 && (!Board.board[i][this.y].hasElement() || Board.board[i][this.y].getElement().getType() != ElementType.WALL) && (LIMIT==-1 ||(this.x - i) <= LIMIT); i--)
-                        if (!Board.board[i][this.y].hasElement() || Board.board[i][this.y].getElement().getType() == ElementType.SLOW || Board.board[i][this.y].getElement().getType() == ElementType.STAR)
+                    for (int i = this.x; i >= 0 && (!Board.getBoard()[i][this.y].hasElement() || !(Board.getBoard()[i][this.y].getElement() instanceof Wall)) && (LIMIT==-1 ||(this.x - i) <= LIMIT); i--)
+                        if (!(Board.getBoard()[i][this.y].getElement() instanceof Piece))
                             Board.safeMargin[i][this.y].setVisible(true);
 
 
-                    for (int j = this.y; j < HEIGHT && (!Board.board[this.x][j].hasElement() || Board.board[this.x][j].getElement().getType() != ElementType.WALL) && (LIMIT==-1 || (j - this.y) <= LIMIT); j++)
-                        if (!Board.board[this.x][j].hasElement() || Board.board[this.x][j].getElement().getType() == ElementType.SLOW || Board.board[this.x][j].getElement().getType() == ElementType.STAR)
+                    for (int j = this.y; j < HEIGHT && (!Board.getBoard()[this.x][j].hasElement() || !(Board.getBoard()[this.x][j].getElement() instanceof Wall)) && (LIMIT==-1 || (j - this.y) <= LIMIT); j++)
+                        if ((!(Board.getBoard()[this.x][j].getElement() instanceof Piece)))
                             Board.safeMargin[this.x][j].setVisible(true);
-                    for (int j = this.y; j >= 0 && (!Board.board[this.x][j].hasElement() || Board.board[this.x][j].getElement().getType() != ElementType.WALL) && (LIMIT==-1 ||(this.y - j) <= LIMIT); j--)
-                        if (!Board.board[this.x][j].hasElement() || Board.board[this.x][j].getElement().getType() == ElementType.SLOW || Board.board[this.x][j].getElement().getType() == ElementType.STAR)
+                    for (int j = this.y; j >= 0 && (!Board.getBoard()[this.x][j].hasElement() || !(Board.getBoard()[this.x][j].getElement() instanceof Wall)) && (LIMIT==-1 ||(this.y - j) <= LIMIT); j--)
+                        if ((!(Board.getBoard()[this.x][j].getElement() instanceof Piece)))
                             Board.safeMargin[this.x][j].setVisible(true);
                 }
 
@@ -85,6 +90,8 @@ public class Piece extends Element {
         });
 
         setOnDragDone(e -> {
+//            MiniMax.miniMax(Board.getBoard(),0,0,5,false);
+//            System.out.println("hello");
             if (!PREPARE) {
                 for (int i = 0; i < WIDTH; i++)
                     Board.safeMargin[i][this.y].setVisible(false);
